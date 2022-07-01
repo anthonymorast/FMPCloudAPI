@@ -1,2 +1,2 @@
 # FMPCloudAPI
-A C++ wrapper around the FMP cloud API.
+A header-only C++ wrapper around the FMP cloud API.
