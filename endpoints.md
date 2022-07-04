@@ -239,24 +239,24 @@ Crossed out entries have been implemented in the API wrapper.
 + Daily Stock split JSON:  https://fmpcloud.io/api/v3/historical-price-full/stock_split/AAPL?apikey=APIKEY
 
 ## Available Market and Tickers 
-+ ETF symbol available JSON:  https://fmpcloud.io/api/v3/symbol/available-etfs?apikey=APIKEY
-+ All ETF Prices JSON:  https://fmpcloud.io/api/v3/quotes/etf?apikey=APIKEY
-+ Commodities available JSON:  https://fmpcloud.io/api/v3/symbol/available-commodities?apikey=APIKEY
-+ All Commodities Prices JSON:  https://fmpcloud.io/api/v3/quotes/commodity?apikey=APIKEY
-+ Euronext available JSON:  https://fmpcloud.io/api/v3/symbol/available-euronext?apikey=APIKEY
-+ All Euronext Prices JSON:  https://fmpcloud.io/api/v3/quotes/euronext?apikey=APIKEY
-+ NYSE available JSON:  https://fmpcloud.io/api/v3/symbol/available-nyse?apikey=APIKEY
-+ All NYSE Prices JSON:  https://fmpcloud.io/api/v3/quotes/nyse?apikey=APIKEY
-+ AMEX available JSON:  https://fmpcloud.io/api/v3/symbol/available-amex?apikey=APIKEY
-+ All Amex Prices JSON:  https://fmpcloud.io/api/v3/quotes/amex?apikey=APIKEY
-+ TSX available JSON:  https://fmpcloud.io/api/v3/symbol/available-tsx?apikey=APIKEY
-+ All TSX Prices JSON:  https://fmpcloud.io/api/v3/quotes/tsx?apikey=APIKEY
-+ Market Indexes available JSON:  https://fmpcloud.io/api/v3/symbol/available-indexes?apikey=APIKEY
-+ All Indexes Prices JSON:  https://fmpcloud.io/api/v3/quotes/index?apikey=APIKEY
-+ Mutual Fund available JSON:  https://fmpcloud.io/api/v3/symbol/available-mutual-funds?apikey=APIKEY
-+ All Mutual Fund Prices JSON:  https://fmpcloud.io/api/v3/quotes/mutual_fund?apikey=APIKEY
-+ Nasdaq available JSON:  https://fmpcloud.io/api/v3/symbol/available-nasdaq?apikey=APIKEY
-+ All Nasdaq Prices JSON:  https://fmpcloud.io/api/v3/quotes/nasdaq?apikey=APIKEY
++ ~~ETF symbol available JSON:  https://fmpcloud.io/api/v3/symbol/available-etfs?apikey=APIKEY~~
++ ~~Commodities available JSON:  https://fmpcloud.io/api/v3/symbol/available-commodities?apikey=APIKEY~~
++ ~~Euronext available JSON:  https://fmpcloud.io/api/v3/symbol/available-euronext?apikey=APIKEY~~
++ ~~NYSE available JSON:  https://fmpcloud.io/api/v3/symbol/available-nyse?apikey=APIKEY~~
++ ~~AMEX available JSON:  https://fmpcloud.io/api/v3/symbol/available-amex?apikey=APIKEY~~
++ ~~TSX available JSON:  https://fmpcloud.io/api/v3/symbol/available-tsx?apikey=APIKEY~~
++ ~~Market Indexes available JSON:  https://fmpcloud.io/api/v3/symbol/available-indexes?apikey=APIKEY~~
++ ~~Mutual Fund available JSON:  https://fmpcloud.io/api/v3/symbol/available-mutual-funds?apikey=APIKEY~~
++ ~~Nasdaq available JSON:  https://fmpcloud.io/api/v3/symbol/available-nasdaq?apikey=APIKEY~~
++ ~~All ETF Prices JSON:  https://fmpcloud.io/api/v3/quotes/etf?apikey=APIKEY~~
++ ~~All Commodities Prices JSON:  https://fmpcloud.io/api/v3/quotes/commodity?apikey=APIKEY~~
++ ~~All Euronext Prices JSON:  https://fmpcloud.io/api/v3/quotes/euronext?apikey=APIKEY~~
++ ~~All NYSE Prices JSON:  https://fmpcloud.io/api/v3/quotes/nyse?apikey=APIKEY~~
++ ~~All Amex Prices JSON:  https://fmpcloud.io/api/v3/quotes/amex?apikey=APIKEY~~
++ ~~All TSX Prices JSON:  https://fmpcloud.io/api/v3/quotes/tsx?apikey=APIKEY~~
++ ~~All Indexes Prices JSON:  https://fmpcloud.io/api/v3/quotes/index?apikey=APIKEY~~
++ ~~All Mutual Fund Prices JSON:  https://fmpcloud.io/api/v3/quotes/mutual_fund?apikey=APIKEY~~
++ ~~All Nasdaq Prices JSON:  https://fmpcloud.io/api/v3/quotes/nasdaq?apikey=APIKEY~~
 
 ## List of S&P 500 companies 
 + All S&P 500 constituents:  https://fmpcloud.io/api/v3/sp500_constituent?apikey=APIKEY
@@ -315,9 +315,9 @@ Crossed out entries have been implemented in the API wrapper.
 + Analysis of reports for trading symbol JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report_analysis/M6?apikey=APIKEY
 
 ## Forex 
-+ Forex List And Price JSON:  https://fmpcloud.io/api/v3/fx?apikey=APIKEY
-+ FOREX available JSON:  https://fmpcloud.io/api/v3/symbol/available-forex-currency-pairs?apikey=APIKEY
-+ All FOREX Prices JSON:  https://fmpcloud.io/api/v3/quotes/forex?apikey=APIKEY
++ ~~Forex List And Price JSON:  https://fmpcloud.io/api/v3/fx?apikey=APIKEY~~
++ ~~FOREX available JSON:  https://fmpcloud.io/api/v3/symbol/available-forex-currency-pairs?apikey=APIKEY~~
++ ~~All FOREX Prices JSON:  https://fmpcloud.io/api/v3/quotes/forex?apikey=APIKEY~~
 
 ## Historical Forex data 
 + 1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/JPYUSD?apikey=APIKEY

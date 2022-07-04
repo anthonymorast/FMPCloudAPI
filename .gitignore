@@ -1,5 +1,7 @@
 key.json
 .vscode/
+Test/Quotes
+Test/Profile
 
 # Prerequisites
 *.d
