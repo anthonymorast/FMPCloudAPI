@@ -1,29 +1,4 @@
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#include "catch2/catch2.hpp"
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-#include "../API/FMPCloud.hpp"
-#include "../API/rapidjson/document.h"
-
-using namespace rapidjson;
-using namespace FMP;
-
-FMPCloudAPI getAPIObject()
-{
-	std::ifstream file("../key.json");
-	if(!file)
-		throw FMPCloudAPIError("Error opening API key file: '../key.json' not found.");
-	std::stringstream jsonContents;
-	jsonContents << file.rdbuf();
-	file.close();
-	Document key;
-	key.Parse(jsonContents.str().c_str());
-	FMPCloudAPI api(key["APIKey"].GetString());
-	return api;
-}
+#include "Global.hpp"
 
 TEST_CASE("Stock Quotes")
 {
@@ -113,60 +88,124 @@ TEST_CASE("FOREX Quotes")
 
 TEST_CASE("Other Availability and Quotes")
 {
-	std::ifstream file("../key.json");
-	if(!file)
-		throw FMPCloudAPIError("Error opening API key file: '../key.json' not found.");
-	std::stringstream jsonContents;
-	jsonContents << file.rdbuf();
-	file.close();
-	Document key;
-	key.Parse(jsonContents.str().c_str());
-	FMPCloudAPI api(key["APIKey"].GetString());
-
+	auto api = getAPIObject();
 	SECTION("ETF")
 	{
+		auto results = api.getAvailableEtf();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
+
+		auto quotes = api.getAllETFPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 
 	}
 
 	SECTION("Commodities")
 	{
+		auto results = api.getCommoditiesAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllCommoditiesPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 
 	SECTION("Euronext")
 	{
+		auto results = api.getEuronextAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllEuronextPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 	
 	SECTION("NYSE")
 	{
+		auto results = api.getNYSEAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllNYSEPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 
 	SECTION("AMEX")
 	{
+		auto results = api.getAMEXAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllAMEXPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 
 
 	SECTION("TSX")
 	{
+		auto results = api.getTSXAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllTSXPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 
 	SECTION("Market Indicies")
 	{
+		auto results = api.getMarketIndexesAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllMarketIndexesPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 
 
 	SECTION("Mutual Funds")
 	{
+		auto results = api.getMutualFundsAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllMutualFundsPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 
 	SECTION("Nasdaq")
 	{
+		auto results = api.getNasdaqAvailable();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
+		REQUIRE(results[0].HasMember("symbol"));
+		REQUIRE(results[0].HasMember("name"));
 
+		auto quotes = api.getAllNasdaqPrices();
+		REQUIRE(results.IsArray());
+		REQUIRE(results.Size() > 0);
 	}
 }

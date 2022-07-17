@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <ctime>
 #include <map>
+#include <thread>
+#include <chrono>
 
 using namespace rapidjson;
 
@@ -23,15 +25,38 @@ namespace FMP
     };
 
     enum CACHE_LENGTH { SHORT, LONG };
+    enum PERIOD { ANNUAL, QUARTERLY };
 
     struct FMPCloudAPI
     {
         FMPCloudAPI(std::string apiKey) : _apiKey(apiKey) 
         {
-            /* TODO: Init cache expiration timers */
+            /* TODO: implement timers */
+            /* NOTE: These only come into play if the object is persisted for > 2 seconds. */
+            // https://stackoverflow.com/questions/21057676/need-to-call-a-function-at-periodic-time-intervals-in-c
+            // std::thread([this]()
+            // { 
+            //     while (true)
+            //     { 
+            //         auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(10000);
+            //         this->_expireLongCache();
+            //         std::this_thread::sleep_until(x);
+            //     }
+            // }).detach();        // expire long cache every 10 seconds
+
+            // std::thread([this]()
+            // { 
+            //     while (true)
+            //     { 
+            //         auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(2000);
+            //         this->_expireShortCache();
+            //         std::this_thread::sleep_until(x);
+            //     }
+            // }).detach();        // expire short cache every 2 seconds
         }
 
         // ----------------- Endpoints -------------------
+        // Quotes
         Document getStockQuote(const std::string& symbol) const;                // no cache
         Document getStockQuote(const std::vector<std::string>& symbols) const;  // no cache
         Document getAvailableCrypto();                                          // long cache
@@ -57,11 +82,35 @@ namespace FMP
         Document getAllMarketIndexesPrices () const;                            // no cache
         Document getAllMutualFundsPrices () const;                              // no cache
         Document getAllNasdaqPrices () const;                                   // no cache
+        // Calendars
+        Document getEarningsCalendar();                                         // long cache
+        Document getHistoricalEarningsCalendar(
+            const std::string& ticker, uint limit=80);                          // long cache
+        Document getIPOCalendar(
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        Document getStockSplitCalendar(
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        Document getDividendCalendar(
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        Document getEconomicCalendar(
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        // Financial Statements
+        Document getSymbolsWithFinancialStatements();                           // long cache
+        Document getIncomeStatement(
+            const std::string& symbol, PERIOD period, uint limit=80);           // long cache
+        Document getIncomeStatementGrowth(
+            const std::string& symbol, PERIOD period, uint limit=80);           // long cache
+        Document getBalanceSheet(
+            const std::string& symbol, PERIOD period, uint limit=80);           // long cache
+        Document getBalanceSheetGrowth(
+            const std::string& symbol, PERIOD period, uint limit=80);           // long cache
+        Document getCashFlowStatement(
+            const std::string& symbol, PERIOD period, uint limit=80);           // long cache
+        Document getCashFlowStatementGrowth(
+            const std::string& symbol, PERIOD period, uint limit=80);           // long cache
 
         // ----------------- Helper Functions ---------------
-        // on construction, create a timer to periodically expire the caches
-        // ideally, there would be 2 or 3 caches, short, medium, and long or short and long, 
-        // which are all expired at different intervals.
+        // on construction, create a timer to periodically expire the caches.
         void expireCache() { _expireLongCache(); _expireShortCache(); };
         void printDocument(const Document& jsonDoc, std::ostream& stream) const;
         private:
@@ -192,6 +241,9 @@ namespace FMP
 
     /** START ENDPOINTS **/
 
+    ////////////
+    // QUOTES
+    ////////////
     Document FMPCloudAPI::getStockQuote(const std::string& symbol) const
     {
         std::vector<std::string> symbols { symbol };
@@ -344,6 +396,127 @@ namespace FMP
         return _getNoCache(url, "nasdaq_quotes_all");
     }
 
+    ////////////
+    // Calendars
+    ////////////
+    Document FMPCloudAPI::getEarningsCalendar()
+    {
+        std::string url = _baseUrl + "v3/earning_calendar?apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, "earnings_calendar", "earnings_calendar", LONG);
+    }
+
+    Document FMPCloudAPI::getHistoricalEarningsCalendar(const std::string& ticker, uint limit)
+    {
+        std::string url = _baseUrl + "v3/historical/earning_calendar/" + ticker + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, "historical_earnings_calendar" + ticker + std::to_string(limit), "historical_earnings_calendar" + ticker + std::to_string(limit), LONG);
+    }
+
+    Document FMPCloudAPI::getIPOCalendar(const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v3/ipo_calendar?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, "ipo_calendar" + fromDate + "_" + toDate, "ipo_calendar" + fromDate + "_" + toDate, LONG);
+    }
+
+    Document FMPCloudAPI::getStockSplitCalendar(const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v3/stock_split_calendar?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, "stock_split_calendar" + fromDate + "_" + toDate, "stock_split_calendar" + fromDate + "_" + toDate, LONG);
+    }
+
+    Document FMPCloudAPI::getDividendCalendar(const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v3/stock_dividend_calendar?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, "dividend_calendar" + fromDate + "_" + toDate, "dividend_calendar" + fromDate + "_" + toDate, LONG);
+    }
+
+    Document FMPCloudAPI::getEconomicCalendar(const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v3/economic_calendar?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, "economic_calendar" + fromDate + "_" + toDate, "economic_calendar" + fromDate + "_" + toDate, LONG);
+    }
+
+    ////////////
+    // Financial Statements 
+    ////////////
+    Document FMPCloudAPI::getSymbolsWithFinancialStatements()
+    {
+        std::string url = _baseUrl + "v3/financial-statement-symbol-lists?apikey=" + _apiKey;
+        std::string key = "financial_statment_symbols";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getIncomeStatement(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/income-statement/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "income_statement" + symbol + std::to_string(limit);
+        if(period == QUARTERLY)
+        {
+            url += "&period=quarter";
+            key += "quarterly";
+        }
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getIncomeStatementGrowth(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/income-statement-growth/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "income_statement_growth" + symbol + std::to_string(limit);
+        if(period == QUARTERLY)
+        {
+            url += "&period=quarter";
+            key += "quarterly";
+        }
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getBalanceSheet(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/balance-sheet-statement/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "balance-sheet-statement" + symbol + std::to_string(limit);
+        if(period == QUARTERLY)
+        {
+            url += "&period=quarter";
+            key += "quarterly";
+        }
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getBalanceSheetGrowth(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/balance-sheet-statement-growth/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "balance-sheet-statement-growth" + symbol + std::to_string(limit);
+        if(period == QUARTERLY)
+        {
+            url += "&period=quarter";
+            key += "quarterly";
+        }
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getCashFlowStatement(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/cash-flow-statement/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "cash-flow-statement" + symbol + std::to_string(limit);
+        if(period == QUARTERLY)
+        {
+            url += "&period=quarter";
+            key += "quarterly";
+        }
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getCashFlowStatementGrowth(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/cash-flow-statement-growth/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "cash-flow-statement-growth" + symbol + std::to_string(limit);
+        if(period == QUARTERLY)
+        {
+            url += "&period=quarter";
+            key += "quarterly";
+        }
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
     /** END ENDPOINTS **/
 }
 

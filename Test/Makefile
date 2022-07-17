@@ -1,11 +1,14 @@
-CFLAGS=--std=c++17 -Wno-psabi -lcurl
+CFLAGS=--std=c++17 -Wno-psabi -lcurl -lpthread
+EXES=Quotes Calendar Profile FinancialStatements Valuations
 
 Test: all
 	./Quotes
 	./Profile
+	./Calendar
+	./FinancialStatements 
+	./Valuations
 
-all: Profile \
-	Quotes
+all: $(EXES)
 
 %.o: %.cpp
 	g++ $(CFLAGS) -c $<
@@ -16,5 +19,14 @@ Profile: Profile.o
 Quotes: Quotes.o
 	g++ $(CFLAGS) -o Quotes $<
 
+Calendar: Calendar.o
+	g++ $(CFLAGS) -o Calendar $<
+
+FinancialStatements: FinancialStatements.o
+	g++ $(CFLAGS) -o FinancialStatements $<
+
+Valuations: Valuations.o
+	g++ $(CFLAGS) -o Valuations $<
+
 clean:
-	rm -rf *.o Quotes Profile
+	rm -rf *.o $(EXES)

@@ -5,20 +5,20 @@ Crossed out entries have been implemented in the API wrapper.
 -----
 
 ## Earnings Calendar 
-+ Earning Calendar JSON:  https://fmpcloud.io/api/v3/earning_calendar?apikey=APIKEY
-+ Historical Earning Calendar JSON:  https://fmpcloud.io/api/v3/historical/earning_calendar/AAPL?limit=80&apikey=APIKEY
++ ~~Earning Calendar JSON:  https://fmpcloud.io/api/v3/earning_calendar?apikey=APIKEY~~
++ ~~Historical Earning Calendar JSON:  https://fmpcloud.io/api/v3/historical/earning_calendar/AAPL?limit=80&apikey=APIKEY~~
 
 ## IPO Calendar
-+ IPO Calendar JSON:  https://fmpcloud.io/api/v3/ipo_calendar?from=2020-01-01&to=2020-09-01&apikey=APIKEY
++ ~~IPO Calendar JSON:  https://fmpcloud.io/api/v3/ipo_calendar?from=2020-01-01&to=2020-09-01&apikey=APIKEY~~
 
 ## Stock Split Calendar
-+ Stock Split Calendar JSON:  https://fmpcloud.io/api/v3/stock_split_calendar?from=2020-06-01&to=2020-09-10&apikey=APIKEY
++ ~~Stock Split Calendar JSON:  https://fmpcloud.io/api/v3/stock_split_calendar?from=2020-06-01&to=2020-09-10&apikey=APIKEY~~
 
 ## Dividend Calendar
-+ Dividend Calendar JSON:  https://fmpcloud.io/api/v3/stock_dividend_calendar?from=2020-06-01&to=2020-09-10&apikey=APIKEY
++ ~~Dividend Calendar JSON:  https://fmpcloud.io/api/v3/stock_dividend_calendar?from=2020-06-01&to=2020-09-10&apikey=APIKEY~~
 
 ## Economic Calendar
-+ Economic Calendar JSON:  https://fmpcloud.io/api/v3/economic_calendar?from=2020-08-05&to=2020-10-20&apikey=APIKEY
++ ~~Economic Calendar JSON:  https://fmpcloud.io/api/v3/economic_calendar?from=2020-08-05&to=2020-10-20&apikey=APIKEY~~
 
 ## Institutional Holders
 + Institutional Holdershttps://fmpcloud.io/api/v3/institutional-holder/AAPL?apikey=APIKEY
@@ -36,46 +36,38 @@ Crossed out entries have been implemented in the API wrapper.
 + ETF Country Weightings:  https://fmpcloud.io/api/v3/etf-country-weightings/SPY?apikey=APIKEY
 
 ## Financial Statements List
-+ List of symbols that have financial statements:  https://fmpcloud.io/api/v3/financial-statement-symbol-lists?apikey=APIKEY
++ ~~List of symbols that have financial statements:  https://fmpcloud.io/api/v3/financial-statement-symbol-lists?apikey=APIKEY~~
 
 ## Income Statement 
-+ Annual JSON:  https://fmpcloud.io/api/v3/income-statement/AAPL?limit=120&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/income-statement/AAPL?period=quarter&limit=400&apikey=APIKEY
-+ Annual Growth JSON:  https://fmpcloud.io/api/v3/income-statement-growth/AAPL?limit=40&apikey=APIKEY
-+ Quarter Growth JSON:  https://fmpcloud.io/api/v3/income-statement-growth/AAPL?period=quarter&limit=130&apikey=APIKEY
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/income-statement/AAPL?limit=120&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/income-statement/AAPL?period=quarter&limit=400&apikey=APIKEY~~
++ ~~Annual Growth JSON:  https://fmpcloud.io/api/v3/income-statement-growth/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter Growth JSON:  https://fmpcloud.io/api/v3/income-statement-growth/AAPL?period=quarter&limit=130&apikey=APIKEY~~
 
 ## Balance Sheet Statement 
-+ Annual JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement/AAPL?limit=120&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement/AAPL?period=quarter&limit=400&apikey=APIKEY
-+ Annual Growth JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-growth/AAPL?limit=40&apikey=APIKEY
-+ Quarter Growth JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-growth/AAPL?period=quarter&limit=130&apikey=APIKEY
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement/AAPL?limit=120&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement/AAPL?period=quarter&limit=400&apikey=APIKEY~~
++ ~~Annual Growth JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-growth/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter Growth JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-growth/AAPL?period=quarter&limit=130&apikey=APIKEY~~
 
 ## Cash Flow Statement 
-+ Annual JSON:  https://fmpcloud.io/api/v3/cash-flow-statement/AAPL?limit=120&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/cash-flow-statement/AAPL?period=quarter&limit=400&+ apikey=APIKEY
-+ Annual Growth JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-growth/AAPL?limit=40&apikey=APIKEY
-+ Quarter Growth JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-growth/AAPL?period=quarter&limit=130&apikey=APIKEY
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/cash-flow-statement/AAPL?limit=120&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/cash-flow-statement/AAPL?period=quarter&limit=400&+ apikey=APIKEY~~
++ ~~Annual Growth JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-growth/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter Growth JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-growth/AAPL?period=quarter&limit=130&apikey=APIKEY~~
 
 ## International filings 
-+ Canadian Stock Exchange TSX (SEDAR) income statements:  https://fmpcloud.io/api/v3/income-statement/RY.TO?limit=120&apikey=APIKEY
-+ Euronext income statements:  https://fmpcloud.io/api/v3/income-statement/EDF.PA?limit=120&apikey=APIKEY
-+ XETRA (Bundesanzeiger) Germany income statements:  https://fmpcloud.io/api/v3/income-statement/SAP.DE?limit=120&apikey=APIKEY
-+ National Stock Exchange of India income statements:  https://fmpcloud.io/api/v3/income-statement/RELIANCE.NS?limit=120&apikey=APIKEY
-+ London Stock Exchange (Companies house) income statements:  https://fmpcloud.io/api/v3/income-statement/GLEN.L?limit=120&apikey=APIKEY
-+ Moscow Exchange (MOEX) income statements:  https://fmpcloud.io/api/v3/income-statement/GAZP.ME?limit=120&apikey=APIKEY
-+ Swiss Exchange (SIX) income statements:  https://fmpcloud.io/api/v3/income-statement/FHZN.SW?limit=120&apikey=APIKEY
-+ Hong Kong Exchange (SEHK) income statements:  https://fmpcloud.io/api/v3/income-statement/1797.HK?limit=120&apikey=APIKEY
-+ Norway stock exchange (OSE) income statements:  https://fmpcloud.io/api/v3/income-statement/BON.OL?limit=120&apikey=APIKEY
-+ Australian Stock Exchange (ASX) income statements:  https://fmpcloud.io/api/v3/income-statement/APT.AX?limit=120&apikey=APIKEY
-+ Financial Statements as Reported On The U.S. Securities and Exchange Commission (SEC)
-+ Income Statement Annual AS REPORTED JSON:  https://fmpcloud.io/api/v3/income-statement-as-reported/AAPL?limit=10&apikey=APIKEY
-+ Income Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/income-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
-+ Balance Sheet Statement Annual AS REPORTED JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-as-reported/AAPL?limit=10&apikey=APIKEY
-+ Balance Sheet Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
-+ Cash Flow Statement Annual AS REPORTED JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-as-reported/AAPL?limit=10&apikey=APIKEY
-+ Cash Flow Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
-+ Full Financial Statement AS REPORTED JSON:  https://fmpcloud.io/api/v3/financial-statement-full-as-reported/AAPL?apikey=APIKEY
-+ Full Financial Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/financial-statement-full-as-reported/AAPL?period=quarter&apikey=APIKEY
++ ~~Canadian Stock Exchange TSX (SEDAR) income statements:  https://fmpcloud.io/api/v3/income-statement/RY.TO?limit=120&apikey=APIKEY~~
++ ~~Euronext income statements:  https://fmpcloud.io/api/v3/income-statement/EDF.PA?limit=120&apikey=APIKEY~~
++ ~~XETRA (Bundesanzeiger) Germany income statements:  https://fmpcloud.io/api/v3/income-statement/SAP.DE?limit=120&apikey=APIKEY~~
++ ~~National Stock Exchange of India income statements:  https://fmpcloud.io/api/v3/income-statement/RELIANCE.NS?limit=120&apikey=APIKEY~~
++ ~~London Stock Exchange (Companies house) income statements:  https://fmpcloud.io/api/v3/income-statement/GLEN.L?limit=120&apikey=APIKEY~~
++ ~~Moscow Exchange (MOEX) income statements:  https://fmpcloud.io/api/v3/income-statement/GAZP.ME?limit=120&apikey=APIKEY~~
++ ~~Swiss Exchange (SIX) income statements:  https://fmpcloud.io/api/v3/income-statement/FHZN.SW?limit=120&apikey=APIKEY~~
++ ~~Hong Kong Exchange (SEHK) income statements:  https://fmpcloud.io/api/v3/income-statement/1797.HK?limit=120&apikey=APIKEY~~
++ ~~Norway stock exchange (OSE) income statements:  https://fmpcloud.io/api/v3/income-statement/BON.OL?limit=120&apikey=APIKEY~~
++ ~~Australian Stock Exchange (ASX) income statements:  https://fmpcloud.io/api/v3/income-statement/APT.AX?limit=120&apikey=APIKEY~~
+
 
 ## Financial ratios 
 + Annual JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?limit=40&apikey=APIKEY
@@ -359,3 +351,14 @@ Crossed out entries have been implemented in the API wrapper.
 
 ## Cusip mapper 
 + Cusip mapper JSON:  https://fmpcloud.io/api/v3/cusip/000360206?apikey=APIKEY
+
+## Will Not Implement
+### Financial Statements as Reported On The U.S. Securities and Exchange Commission (SEC)
++ Income Statement Annual AS REPORTED JSON:  https://fmpcloud.io/api/v3/income-statement-as-reported/AAPL?limit=10&apikey=APIKEY
++ Income Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/income-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
++ Balance Sheet Statement Annual AS REPORTED JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-as-reported/AAPL?limit=10&apikey=APIKEY
++ Balance Sheet Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/balance-sheet-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
++ Cash Flow Statement Annual AS REPORTED JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-as-reported/AAPL?limit=10&apikey=APIKEY
++ Cash Flow Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
++ Full Financial Statement AS REPORTED JSON:  https://fmpcloud.io/api/v3/financial-statement-full-as-reported/AAPL?apikey=APIKEY
++ Full Financial Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/financial-statement-full-as-reported/AAPL?period=quarter&apikey=APIKEY
