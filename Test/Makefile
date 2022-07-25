@@ -1,5 +1,5 @@
 CFLAGS=--std=c++17 -Wno-psabi -lcurl -lpthread
-EXES=Quotes Calendar Profile FinancialStatements Valuations
+EXES=Quotes Calendar Profile FinancialStatements Valuations HoldersAndWeightings HistoricalData
 
 Test: all
 	./Quotes
@@ -7,6 +7,8 @@ Test: all
 	./Calendar
 	./FinancialStatements 
 	./Valuations
+	./HoldersAndWeightings 
+	./HistoricalData
 
 all: $(EXES)
 
@@ -27,6 +29,12 @@ FinancialStatements: FinancialStatements.o
 
 Valuations: Valuations.o
 	g++ $(CFLAGS) -o Valuations $<
+
+HoldersAndWeightings: HoldersAndWeightings.o
+	g++ $(CFLAGS) -o HoldersAndWeightings $<
+
+HistoricalData: HistoricalData.o
+	g++ $(CFLAGS) -o HistoricalData $<
 
 clean:
 	rm -rf *.o $(EXES)

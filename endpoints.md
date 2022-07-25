@@ -21,19 +21,19 @@ Crossed out entries have been implemented in the API wrapper.
 + ~~Economic Calendar JSON:  https://fmpcloud.io/api/v3/economic_calendar?from=2020-08-05&to=2020-10-20&apikey=APIKEY~~
 
 ## Institutional Holders
-+ Institutional Holdershttps://fmpcloud.io/api/v3/institutional-holder/AAPL?apikey=APIKEY
++ ~~Institutional Holdershttps://fmpcloud.io/api/v3/institutional-holder/AAPL?apikey=APIKEY~~
 
 ## Mutual Fund Holders
-+ Mutual Fund Holdershttps://fmpcloud.io/api/v3/mutual-fund-holder/AAPL?apikey=APIKEY
++ ~~Mutual Fund Holdershttps://fmpcloud.io/api/v3/mutual-fund-holder/AAPL?apikey=APIKEY~~
 
 ## ETF Holders
-+ ETF Holdershttps://fmpcloud.io/api/v3/etf-holder/SPY?apikey=APIKEY
++ ~~ETF Holdershttps://fmpcloud.io/api/v3/etf-holder/SPY?apikey=APIKEY~~
 
 ## ETF Sector Weightings
-+ ETF Sector Weightingshttps://fmpcloud.io/api/v3/etf-sector-weightings/SPY?apikey=APIKEY
++ ~~ETF Sector Weightingshttps://fmpcloud.io/api/v3/etf-sector-weightings/SPY?apikey=APIKEY~~
 
 ## ETF Country Weightings
-+ ETF Country Weightings:  https://fmpcloud.io/api/v3/etf-country-weightings/SPY?apikey=APIKEY
++ ~~ETF Country Weightings:  https://fmpcloud.io/api/v3/etf-country-weightings/SPY?apikey=APIKEY~~
 
 ## Financial Statements List
 + ~~List of symbols that have financial statements:  https://fmpcloud.io/api/v3/financial-statement-symbol-lists?apikey=APIKEY~~
@@ -70,28 +70,28 @@ Crossed out entries have been implemented in the API wrapper.
 
 
 ## Financial ratios 
-+ Annual JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?limit=40&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?period=quarter&limit=140&apikey=APIKEY
-+ Annual TTM JSON:  https://fmpcloud.io/api/v3/ratios-ttm/AAPL?apikey=APIKEY
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?period=quarter&limit=140&apikey=APIKEY~~
++ ~~Annual TTM JSON:  https://fmpcloud.io/api/v3/ratios-ttm/AAPL?apikey=APIKEY~~
 
 ## Key Metrics 
-+ Company TTM key metrics JSON:  https://fmpcloud.io/api/v3/key-metrics-ttm/AAPL?limit=40&apikey=APIKEY
-+ Annual JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?limit=40&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?period=quarter&limit=130&apikey=APIKEY
++ ~~Company TTM key metrics JSON:  https://fmpcloud.io/api/v3/key-metrics-ttm/AAPL?limit=40&apikey=APIKEY~~
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?period=quarter&limit=130&apikey=APIKEY~~
 
 ## Enterprise Value 
-+ Annual JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?limit=40&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?period=quarter&limit=130&apikey=APIKEY
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?period=quarter&limit=130&apikey=APIKEY~~
 
 ## Financial Statements Growth 
-+ Annual JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?limit=20&apikey=APIKEY
-+ Quarter JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?period=quarter&limit=80&apikey=APIKEY
++ ~~Annual JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?limit=20&apikey=APIKEY~~
++ ~~Quarter JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?period=quarter&limit=80&apikey=APIKEY~~
 
 ## Discounted Cash Flow Value 
-+ DCF JSON:  https://fmpcloud.io/api/v3/discounted-cash-flow/AAPL?apikey=APIKEY
-+ Daily Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-daily-discounted-cash-flow/AAPL?limit=100&apikey=APIKEY
-+ Annual Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?limit=40&apikey=APIKEY
-+ Quarter Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?period=quarter&limit=120&apikey=APIKEY
++ ~~DCF JSON:  https://fmpcloud.io/api/v3/discounted-cash-flow/AAPL?apikey=APIKEY~~
++ ~~Daily Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-daily-discounted-cash-flow/AAPL?limit=100&apikey=APIKEY~~
++ ~~Annual Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?limit=40&apikey=APIKEY~~
++ ~~Quarter Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?period=quarter&limit=120&apikey=APIKEY~~
 
 ## Rating 
 + Rating JSON:  https://fmpcloud.io/api/v3/rating/AAPL?apikey=APIKEY
@@ -169,38 +169,34 @@ Crossed out entries have been implemented in the API wrapper.
 + Stock peers based on sector, exchange and market cap JSON:  https://fmpcloud.io/api/v4/stock_peers?symbol=AAPL&apikey=APIKEY
 
 ## Sectors PE Ratio
-+ Average price to earnings ratio for sectors JSON:  https://fmpcloud.io/api/v4/sector_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY
++ ~~Average price to earnings ratio for sectors JSON:  https://fmpcloud.io/api/v4/sector_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY~~
 
 ## Industries PE Ratio
-+ Average price to earnings ratio for industries JSON:  https://fmpcloud.io/api/v4/industry_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY
++ ~~Average price to earnings ratio for industries JSON:  https://fmpcloud.io/api/v4/industry_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY~~
 
 ## Shares Float
 + Shares Float for symbol JSON:  https://fmpcloud.io/api/v4/shares_float?symbol=AAPL&apikey=APIKEY
 + All Shares Float available JSON:  https://fmpcloud.io/api/v4/shares_float/all?apikey=APIKEY
 
 ## Institutional Stock Ownership
-+ Institutional Stock Ownership JSON:  https://fmpcloud.io/api/v4/institutional-ownership/symbol-ownership?symbol=AAPL&includeCurrentQuarter=false&apikey=APIKEY
-+ Stock Ownership by Holders JSON:  https://fmpcloud.io/api/v4/institutional-ownership/institutional-holders/symbol-ownership-percent?date=2021-09-30&symbol=AAPL&page=0&apikey=APIKEY
-+ Institutional Holdings Portfolio Positions Summary JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-holdings-summary?cik=0001067983&apikey=APIKEY
-+ Institutional Holder Rss Feed JSON:  https://fmpcloud.io/api/v4/institutional-ownership/rss_feed?page=0&apikey=APIKEY
-+ Institutional Holders List JSON:  https://fmpcloud.io/api/v4/institutional-ownership/list?apikey=APIKEY
-+ Institutional Holders Search JSON:  https://fmpcloud.io/api/v4/institutional-ownership/name?name=Berkshire%20Hathaway%20Inc&apikey=APIKEY
-+ Institutional Holders Available Date JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-date?cik=0001067983&apikey=APIKEY
-+ Institutional Ownership by Shares Held and Date JSON:  https://fmpcloud.io/api/v4/institutional-ownership/institutional-holders/symbol-ownership?date=2021-09-30&symbol=AAPL&page=0&apikey=APIKEY
-+ Institutional Holdings Portfolio Industry Summary JSON:  https://fmpcloud.io/api/v4/institutional-ownership/industry/portfolio-holdings-summary?cik=0001067983&date=2021-09-30&page=0&apikey=APIKEY
-+ Institutional Holdings Portfolio composition JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-holdings?cik=0001067983&date=2021-09-30&page=0&apikey=APIKEY
++ ~~Institutional Stock Ownership JSON:  https://fmpcloud.io/api/v4/institutional-ownership/symbol-ownership?symbol=AAPL&includeCurrentQuarter=false&apikey=APIKEY~~
++ ~~Institutional Holdings Portfolio Positions Summary JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-holdings-summary?cik=0001067983&apikey=APIKEY~~
++ ~~Institutional Holders List JSON:  https://fmpcloud.io/api/v4/institutional-ownership/list?apikey=APIKEY~~
++ ~~Institutional Holders Search JSON:  https://fmpcloud.io/api/v4/institutional-ownership/name?name=Berkshire%20Hathaway%20Inc&apikey=APIKEY~~
++ ~~Institutional Holdings Portfolio Industry Summary JSON:  https://fmpcloud.io/api/v4/institutional-ownership/industry/portfolio-holdings-summary?cik=0001067983&date=2021-09-30&page=0&apikey=APIKEY~~
++ ~~Institutional Holdings Portfolio composition JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-holdings?cik=0001067983&date=2021-09-30&page=0&apikey=APIKEY~~
+
 
 ## Stock Insider Trading 
 (The federal securities laws require certain individuals (such as officers, directors, and those that hold more than 10% of any class of a company’s securities, together we’ll call, “insiders”) to report purchases, sales, and holdings of their company’s securities by filing Forms 3, 4, and 5.)
 
-+ Stock insider trading using ticker JSON:  https://fmpcloud.io/api/v4/insider-trading?symbol=AAPL&limit=100&apikey=APIKEY
-+ Stock insider trading using reporting CIK JSON:  https://fmpcloud.io/api/v4/insider-trading?reportingCik=0001663020&limit=100&apikey=APIKEY
-+ Stock insider trading using company CIK JSON:  https://fmpcloud.io/api/v4/insider-trading?companyCik=0000320193&limit=100&apikey=APIKEY
-+ List with names and their CIK JSON:  https://fmpcloud.io/api/v4/mapper-cik-name?apikey=APIKEY
-+ CIK mapper using name param JSON:  https://fmpcloud.io/api/v4/mapper-cik-name?name=zuckerberg%20mark&apikey=APIKEY
-+ Company CIK mapper JSON:  https://fmpcloud.io/api/v4/mapper-cik-company/MSFT?apikey=APIKEY
-+ Insider Trading RSS Feed
-+ RSS Feed of form 3,4 and 5 JSON:  https://fmpcloud.io/api/v4/insider-trading-rss-feed?limit=50&apikey=APIKEY
++ ~~Stock insider trading using ticker JSON:  https://fmpcloud.io/api/v4/insider-trading?symbol=AAPL&limit=100&apikey=APIKEY~~
++ ~~Stock insider trading using reporting CIK JSON:  https://fmpcloud.io/api/v4/insider-trading?reportingCik=0001663020&limit=100&apikey=APIKEY~~
++ ~~Stock insider trading using company CIK JSON:  https://fmpcloud.io/api/v4/insider-trading?companyCik=0000320193&limit=100&apikey=APIKEY~~
++ ~~List with names and their CIK JSON:  https://fmpcloud.io/api/v4/mapper-cik-name?apikey=APIKEY~~
++ ~~CIK mapper using name param JSON:  https://fmpcloud.io/api/v4/mapper-cik-name?name=zuckerberg%20mark&apikey=APIKEY~~
++ ~~Company CIK mapper JSON:  https://fmpcloud.io/api/v4/mapper-cik-company/MSFT?apikey=APIKEY~~
++ ~~Insider Trading RSS Feed~~
 
 ## Real-time quote 
 + ~~Single quote JSON:  https://fmpcloud.io/api/v3/quote/AAPL?apikey=APIKEY~~
@@ -362,3 +358,8 @@ Crossed out entries have been implemented in the API wrapper.
 + Cash Flow Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/cash-flow-statement-as-reported/AAPL?period=quarter&limit=50&apikey=APIKEY
 + Full Financial Statement AS REPORTED JSON:  https://fmpcloud.io/api/v3/financial-statement-full-as-reported/AAPL?apikey=APIKEY
 + Full Financial Statement Quarter AS REPORTED JSON:  https://fmpcloud.io/api/v3/financial-statement-full-as-reported/AAPL?period=quarter&apikey=APIKEY
++ Institutional Holder Rss Feed JSON:  https://fmpcloud.io/api/v4/institutional-ownership/rss_feed?page=0&apikey=APIKEY
++ Institutional Ownership by Shares Held and Date JSON:  https://fmpcloud.io/api/v4/institutional-ownership/institutional-holders/symbol-ownership?date=2021-09-30&symbol=AAPL&page=0&apikey=APIKEY
++ RSS Feed of form 3,4 and 5 JSON:  https://fmpcloud.io/api/v4/insider-trading-rss-feed?limit=50&apikey=APIKEY
++ Stock Ownership by Holders JSON:  https://fmpcloud.io/api/v4/institutional-ownership/institutional-holders/symbol-ownership-percent?date=2021-09-30&symbol=AAPL&page=0&apikey=APIKEY
++ Institutional Holders Available Date JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-date?cik=0001067983&apikey=APIKEY

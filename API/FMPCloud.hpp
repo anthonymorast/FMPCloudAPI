@@ -108,6 +108,29 @@ namespace FMP
             const std::string& symbol, PERIOD period, uint limit=80);           // long cache
         Document getCashFlowStatementGrowth(
             const std::string& symbol, PERIOD period, uint limit=80);           // long cache
+        // Holders and Weightings
+        Document getInstitutionalStockHolders(const std::string& symbol);       // long cache
+        Document getMutualFundHolders(const std::string& symbol);               // long cache
+        Document getETFHolders(const std::string& symbol);                      // long cache
+        Document getETFSectorWeightings(const std::string& symbol);             // long cache
+        Document getETFCountryWeightings(const std::string& symbol);            // long cache
+        Document getInstitutionalHoldingSummary(const std::string& CIK);        // long cache
+        Document getInstitutionalHoldersList();                                 // long cache
+        Document searchInstitutionalHoldersByName(const std::string& name);     // long cache
+        Document getPortfolioIndustrySummary(
+            const std::string& CIK, const std::string& date, uint page = 0);    // long cache
+        Document getInstitutionalPortfolioCompisition(
+            const std::string& CIK, const std::string& date, uint page = 0);    // long cache
+        Document searchInsiderTradingBySymbol(
+            const std::string& symbol, uint limit=100);                         // long cache
+        Document searchInsiderTradingByReportingCIK(
+            const std::string& reportingCIK, uint limit=100);                   // long cache
+        Document searchInsiderTradingByCompanyCIK(
+            const std::string& companyCIK, uint limit=100);                     // long cache
+        Document getNameCIKMap(const std::string& name="");                     // long cache
+        Document getCompanyCIKMap(const std::string& symbol);                   // long cache
+        // Valuations
+
 
         // ----------------- Helper Functions ---------------
         // on construction, create a timer to periodically expire the caches.
@@ -517,6 +540,153 @@ namespace FMP
         return _returnFromAndUpdateCache(url, key, key, LONG);
     }
     
+    ////////////
+    // Holders and Weightings
+    ////////////
+    Document FMPCloudAPI::getInstitutionalStockHolders(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/institutional-holder/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "instiutional_stock_holders" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getMutualFundHolders(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/mutual-fund-holder/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "mutual_fund_holders" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getETFHolders(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/etf-holder/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "etf-holder" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getETFSectorWeightings(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/etf-sector-weightings/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "etf-sector-weightings" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getETFCountryWeightings(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/etf-country-weightings/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "etf-country-weightings" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getInstitutionalHoldingSummary(const std::string& CIK)
+    {
+        std::string url = _baseUrl + "v4/institutional-ownership/portfolio-holdings-summary?cik=" + CIK + "&apikey=" + _apiKey;
+        std::string key = "institutional-ownership-portfolio-holdings-summary" + CIK;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getInstitutionalHoldersList()
+    {
+        std::string url = _baseUrl + "v4/institutional-ownership/list?apikey=" + _apiKey;
+        std::string key = "institutional-ownership-list";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::searchInstitutionalHoldersByName(const std::string& name)
+    {
+        std::string url = _baseUrl + "v4/institutional-ownership/name?name=" + name + "&apikey=" + _apiKey;
+        std::string key = "institutional-ownership-name" + name;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getPortfolioIndustrySummary(const std::string& CIK, const std::string& date, uint page)
+    {
+        std::string url = _baseUrl + "v4/institutional-ownership/industry/portfolio-holdings-summary?cik=" + CIK + "&date=" + date + "&page=" + std::to_string(page) + "&apikey=" + _apiKey;
+        std::string key = "institutional-ownership-industry-portfolio-holdings-summary" + CIK + date + std::to_string(page);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getInstitutionalPortfolioCompisition(const std::string& CIK, const std::string& date, uint page)
+    {
+        std::string url = _baseUrl + "v4/institutional-ownership/industry/portfolio-holdings?cik=" + CIK + "&date=" + date + "&page=" + std::to_string(page) + "&apikey=" + _apiKey;
+        std::string key = "institutional-ownership-industry-portfolio-holdings" + CIK + date + std::to_string(page);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::searchInsiderTradingBySymbol(const std::string& symbol, uint limit)
+    {
+        std::string url = _baseUrl + "v4/insider-trading?symbol=" + symbol + "&apikey=" + _apiKey + "&limit=" + std::to_string(limit);
+        std::string key = "insider-trading-symbol" + symbol + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::searchInsiderTradingByReportingCIK(const std::string& reportingCIK, uint limit)
+    {
+        std::string url = _baseUrl + "v4/insider-trading?apikey=" + _apiKey + "&reportingCik=" + reportingCIK + "&limit=" + std::to_string(limit);
+        std::string key = "insider-trading-reportingCIK" + reportingCIK + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::searchInsiderTradingByCompanyCIK(const std::string& companyCIK, uint limit)
+    {
+        std::string url = _baseUrl + "v4/insider-trading?apikey=" + _apiKey + "&companyCik=" + companyCIK + "&limit=" + std::to_string(limit);
+        std::string key = "insider-trading-companyCIK" + companyCIK;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getNameCIKMap(const std::string& name)
+    {
+        std::string url = _baseUrl + "v4/mapper-cik-name?apikey=" + _apiKey;
+        std::string key = "mapper-cik-name" + name;
+        if(!name.empty())
+            url += ("&name=" + name);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getCompanyCIKMap(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v4/mapper-cik-company/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "mapper-cik-symbol" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    ////////////
+    // Valuations
+    ////////////
+
+
+// ## Financial ratios 
+// + Annual JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?limit=40&apikey=APIKEY
+// + Quarter JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?period=quarter&limit=140&apikey=APIKEY
+// + Annual TTM JSON:  https://fmpcloud.io/api/v3/ratios-ttm/AAPL?apikey=APIKEY
+
+// ## Key Metrics 
+// + Company TTM key metrics JSON:  https://fmpcloud.io/api/v3/key-metrics-ttm/AAPL?limit=40&apikey=APIKEY
+// + Annual JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?limit=40&apikey=APIKEY
+// + Quarter JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?period=quarter&limit=130&apikey=APIKEY
+
+// ## Enterprise Value 
+// + Annual JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?limit=40&apikey=APIKEY
+// + Quarter JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?period=quarter&limit=130&apikey=APIKEY
+
+// ## Financial Statements Growth 
+// + Annual JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?limit=20&apikey=APIKEY
+// + Quarter JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?period=quarter&limit=80&apikey=APIKEY
+
+// ## Discounted Cash Flow Value 
+// + DCF JSON:  https://fmpcloud.io/api/v3/discounted-cash-flow/AAPL?apikey=APIKEY
+// + Daily Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-daily-discounted-cash-flow/AAPL?limit=100&apikey=APIKEY
+// + Annual Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?limit=40&apikey=APIKEY
+// + Quarter Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?period=quarter&limit=120&apikey=APIKEY
+
+// ## Sectors PE Ratio
+// + Average price to earnings ratio for sectors JSON:  https://fmpcloud.io/api/v4/sector_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY
+
+// ## Industries PE Ratio
+// + Average price to earnings ratio for industries JSON:  https://fmpcloud.io/api/v4/industry_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY
+
+
+
     /** END ENDPOINTS **/
 }
 
