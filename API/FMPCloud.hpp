@@ -25,7 +25,7 @@ namespace FMP
     };
 
     enum CACHE_LENGTH { SHORT, LONG };
-    enum PERIOD { ANNUAL, QUARTERLY };
+    enum PERIOD { ANNUAL, QUARTERLY, TTM };
 
     struct FMPCloudAPI
     {
@@ -130,6 +130,23 @@ namespace FMP
         Document getNameCIKMap(const std::string& name="");                     // long cache
         Document getCompanyCIKMap(const std::string& symbol);                   // long cache
         // Valuations
+        Document getFinancialRatios(
+            const std::string& symbol, PERIOD period, uint limit=40);           // long cache
+        Document getKeyMetrics(
+            const std::string& symbol, PERIOD period, uint limit=40);           // long cache
+        Document getEnterpriseValue(
+            const std::string& symbol, PERIOD period, uint limit=40);           // long cache
+        Document getFinancialStatementGrowth(
+            const std::string& symbol, PERIOD period, uint limit=40);           // long cache
+        Document getHistoricalDiscountCashFlowValue(
+            const std::string& symbol, PERIOD period, uint limit=40);           // long cache
+        Document getCurrentDiscountCashFlowValue(const std::string& symbol);    // long cache
+        Document getDailyDiscountedCashFlowValue(
+            const std::string& symbol, uint limit=100);                         // long cache
+        Document getAvgSectorPERatio(
+            const std::string& exchange, const std::string& date);              // long cache
+        Document getAvgIndustryPERatio(
+            const std::string& exchange, const std::string& date);              // long cache
 
 
         // ----------------- Helper Functions ---------------
@@ -653,39 +670,98 @@ namespace FMP
     ////////////
     // Valuations
     ////////////
+    Document FMPCloudAPI::getFinancialRatios(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/" + ((period != TTM) ? "ratios/" : "ratios-ttm/") + symbol
+                + (period == QUARTERLY ? "?period=quarter&" : "?")
+                + "apikey=" + _apiKey
+                + "&limit=" + std::to_string(limit);
+        std::string key = "ratios" + symbol + std::to_string(limit) + (period == ANNUAL ? "annual" : (period == TTM ? "ttm" : "quarter"));
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
+    Document FMPCloudAPI::getKeyMetrics(const std::string& symbol, PERIOD period, uint limit)
+    {
+        std::string url = _baseUrl + "v3/" + ((period != TTM) ? "key-metrics/" : "key-metrics-ttm/") + symbol
+                + (period == QUARTERLY ? "?period=quarter&" : "?")
+                + "apikey=" + _apiKey
+                + "&limit=" + std::to_string(limit);
+        std::string key = "key_metrics" + symbol + std::to_string(limit) + (period == ANNUAL ? "annual" : (period == TTM ? "ttm" : "quarter"));
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Financial ratios 
-// + Annual JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?limit=40&apikey=APIKEY
-// + Quarter JSON:  https://fmpcloud.io/api/v3/ratios/AAPL?period=quarter&limit=140&apikey=APIKEY
-// + Annual TTM JSON:  https://fmpcloud.io/api/v3/ratios-ttm/AAPL?apikey=APIKEY
+    Document FMPCloudAPI::getEnterpriseValue(const std::string& symbol, PERIOD period, uint limit)
+    {
+        if(period == TTM)
+            return {};
+        
+        std::string url = _baseUrl + "v3/enterprise-values/" + symbol 
+                + "?limit=" + std::to_string(limit)
+                + "&apikey=" + _apiKey 
+                + (period == QUARTERLY ? "&period=quarter" : "");
+        std::string key = "enterprise_values" + symbol + std::to_string(limit) + (period == ANNUAL ? "annual" : "quarter");
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Key Metrics 
-// + Company TTM key metrics JSON:  https://fmpcloud.io/api/v3/key-metrics-ttm/AAPL?limit=40&apikey=APIKEY
-// + Annual JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?limit=40&apikey=APIKEY
-// + Quarter JSON:  https://fmpcloud.io/api/v3/key-metrics/AAPL?period=quarter&limit=130&apikey=APIKEY
+    Document FMPCloudAPI::getFinancialStatementGrowth(const std::string& symbol, PERIOD period, uint limit)
+    {
+        if(period == TTM)
+            return {};
+        
+        std::string url = _baseUrl + "v3/financial-growth/" + symbol 
+                + "?limit=" + std::to_string(limit)
+                + "&apikey=" + _apiKey 
+                + (period == QUARTERLY ? "&period=quarter" : "");
+        std::string key = "financial_growth" + symbol + std::to_string(limit) + (period == ANNUAL ? "annual" : "quarter");
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Enterprise Value 
-// + Annual JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?limit=40&apikey=APIKEY
-// + Quarter JSON:  https://fmpcloud.io/api/v3/enterprise-values/AAPL?period=quarter&limit=130&apikey=APIKEY
+    Document FMPCloudAPI::getHistoricalDiscountCashFlowValue(const std::string& symbol, PERIOD period, uint limit)
+    {
+        if(period == TTM)
+            return {};
+        
+        std::string url = _baseUrl + "v3/historical-discounted-cash-flow-statement/" + symbol 
+                + "?limit=" + std::to_string(limit)
+                + "&apikey=" + _apiKey 
+                + (period == QUARTERLY ? "&period=quarter" : "");
+        std::string key = "historical-discounted-cash-flow-statement" + symbol + std::to_string(limit) + (period == ANNUAL ? "annual" : "quarter");
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Financial Statements Growth 
-// + Annual JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?limit=20&apikey=APIKEY
-// + Quarter JSON:  https://fmpcloud.io/api/v3/financial-growth/AAPL?period=quarter&limit=80&apikey=APIKEY
+    Document FMPCloudAPI::getCurrentDiscountCashFlowValue(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/discounted-cash-flow/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "discounted_cash_flow" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Discounted Cash Flow Value 
-// + DCF JSON:  https://fmpcloud.io/api/v3/discounted-cash-flow/AAPL?apikey=APIKEY
-// + Daily Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-daily-discounted-cash-flow/AAPL?limit=100&apikey=APIKEY
-// + Annual Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?limit=40&apikey=APIKEY
-// + Quarter Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?period=quarter&limit=120&apikey=APIKEY
+    Document FMPCloudAPI::getDailyDiscountedCashFlowValue(const std::string& symbol, uint limit)
+    {
+        std::string url = _baseUrl + "v3/historical-daily-discounted-cash-flow/" + symbol + "?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "historical-daily-discounted-cash-flow" + symbol + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Sectors PE Ratio
-// + Average price to earnings ratio for sectors JSON:  https://fmpcloud.io/api/v4/sector_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY
+    Document FMPCloudAPI::getAvgSectorPERatio(const std::string& exchange, const std::string& date)
+    {
+        std::string url = _baseUrl + "v4/sector_price_earning_ratio/"
+                + "?apikey=" + _apiKey
+                + "&date=" + date
+                + "&exchange=" + exchange;
+        std::string key = "sector_price_earning_ratio" + date + exchange;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-// ## Industries PE Ratio
-// + Average price to earnings ratio for industries JSON:  https://fmpcloud.io/api/v4/industry_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY
-
-
+    Document FMPCloudAPI::getAvgIndustryPERatio(const std::string& exchange, const std::string& date)
+    {
+        std::string url = _baseUrl + "v4/industry_price_earning_ratio/"
+                + "?apikey=" + _apiKey
+                + "&date=" + date
+                + "&exchange=" + exchange;
+        std::string key = "industry_price_earning_ratio" + date + exchange;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
     /** END ENDPOINTS **/
 }
