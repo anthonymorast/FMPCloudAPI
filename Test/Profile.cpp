@@ -1,2 +1,16 @@
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#include "catch2/catch2.hpp"
+#include "Global.hpp"
+
+TEST_CASE("Profile")
+{
+
+}
+
+TEST_CASE("Key Executives")
+{
+
+}
+
+TEST_CASE("Misc")
+{
+    
+}

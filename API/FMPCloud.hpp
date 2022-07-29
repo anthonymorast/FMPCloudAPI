@@ -13,11 +13,15 @@
 #include <map>
 #include <thread>
 #include <chrono>
+#include <mutex>
 
 using namespace rapidjson;
 
 namespace FMP
 {
+    
+    std::mutex _shortMtx;
+    std::mutex _longMtx;
     struct FMPCloudAPIError : public std::runtime_error
     {
         ~FMPCloudAPIError() {}
@@ -32,27 +36,29 @@ namespace FMP
         FMPCloudAPI(std::string apiKey) : _apiKey(apiKey) 
         {
             /* TODO: implement timers */
-            /* NOTE: These only come into play if the object is persisted for > 2 seconds. */
+            /* NOTE: These only come into play if the object is persisted for > 30 seconds. */
             // https://stackoverflow.com/questions/21057676/need-to-call-a-function-at-periodic-time-intervals-in-c
-            // std::thread([this]()
-            // { 
-            //     while (true)
-            //     { 
-            //         auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(10000);
-            //         this->_expireLongCache();
-            //         std::this_thread::sleep_until(x);
-            //     }
-            // }).detach();        // expire long cache every 10 seconds
+            std::thread([this]()
+            { 
+                while (true)
+                { 
+                    auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(600000);
+                    // std::cout << "Clearing Cache" << std::endl;
+                    // this->_expireLongCache();
+                    // std::cout << "Cache Cleared" << std::endl;
+                    std::this_thread::sleep_until(x);
+                }
+            }).detach();        // expire long cache every 10 minutes
 
-            // std::thread([this]()
-            // { 
-            //     while (true)
-            //     { 
-            //         auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(2000);
-            //         this->_expireShortCache();
-            //         std::this_thread::sleep_until(x);
-            //     }
-            // }).detach();        // expire short cache every 2 seconds
+            std::thread([this]()
+            { 
+                while (true)
+                { 
+                    auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(30000);
+                    // this->_expireShortCache();
+                    std::this_thread::sleep_until(x);
+                }
+            }).detach();        // expire short cache every 30 seconds
         }
 
         // ----------------- Endpoints -------------------
@@ -147,7 +153,29 @@ namespace FMP
             const std::string& exchange, const std::string& date);              // long cache
         Document getAvgIndustryPERatio(
             const std::string& exchange, const std::string& date);              // long cache
-
+        ////////////
+        // Administrative
+        ////////////
+        Document getDelistedCompanyList(uint limit=100);                        // long cache
+        Document getSP500Constituents(bool historical=false);                   // long cache
+        Document getNasdaq100Constituents(bool historical=false);               // long cache
+        Document getDJIAConstituents(bool historical=false);                    // long cache
+        Document getSymbolList();                                               // long cache
+        Document getETFList();                                                  // long cache
+        Document getTradableSymbolsList();                                      // long cache
+        Document getTradingHours();                                             // long cache
+        Document getCOTSymbolsList();                                           // long cache
+        Document getCOTReportByPeriod(
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        Document getCOTReportByTicker(const std::string& symbol);               // long cache
+        Document getCOTAnalysisByPeriod(
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        Document getCOTAnalysisByTicker(const std::string& symbol);             // long cache
+        Document get13FCIKList();                                               // long cache
+        Document searchCIKByName(const std::string& name);                      // long cache
+        Document getNameByCIK(const std::string& CIK);                          // long cache
+        Document get13FByCIK(const std::string& CIK, const std::string& date);  // long cache
+        Document cusipMapper(const std::string& CUSIP);                         // long cache
 
         // ----------------- Helper Functions ---------------
         // on construction, create a timer to periodically expire the caches.
@@ -168,8 +196,19 @@ namespace FMP
 
             std::string _getCachedContents(std::string key, CACHE_LENGTH length) const;
             void _cache(std::string key, std::string results, CACHE_LENGTH length);
-            void _expireShortCache() { _shortjsonContentsCache.clear(); }
-            void _expireLongCache() { _longJsonContentsCache.clear(); }
+            void _expireShortCache() 
+            { 
+                _shortMtx.lock(); 
+                _shortjsonContentsCache.clear(); 
+                _shortMtx.unlock(); 
+            }
+            void _expireLongCache() 
+            { 
+                std::cout << "Expiring the cache, sir!" << std::endl;
+                _longMtx.lock(); 
+                _longJsonContentsCache.clear(); 
+                _longMtx.unlock(); 
+            }
     };
 
     std::string FMPCloudAPI::_toCommaDelimited(const std::vector<std::string>& stringVector) const
@@ -229,13 +268,17 @@ namespace FMP
         std::string cachedResult {""};
         if(length == LONG) 
         {
+            _longMtx.lock();
             auto it = _longJsonContentsCache.find(key);
             cachedResult = it == _longJsonContentsCache.end() ? "" : it->second;
+            _longMtx.unlock();
         }
         else if(length == SHORT)
         {
+            _shortMtx.lock();
             auto it = _shortjsonContentsCache.find(key);
             cachedResult = it == _shortjsonContentsCache.end() ? "" : it->second;
+            _shortMtx.unlock();
         } 
         return cachedResult;
     }
@@ -243,10 +286,12 @@ namespace FMP
     void FMPCloudAPI::_cache(std::string key, std::string contents, CACHE_LENGTH length)
     {
         // overrides previous cache value (for expiration)
+        length == LONG ? _longMtx.lock() : _shortMtx.lock();
         if(length == LONG) 
             _longJsonContentsCache[key] = contents;
         else 
             _shortjsonContentsCache[key] = contents;
+        length == LONG ? _longMtx.unlock() : _shortMtx.unlock();            
     }
 
     Document FMPCloudAPI::_returnFromAndUpdateCache(std::string url, std::string cacheKey, std::string filenameKey, CACHE_LENGTH duration)
@@ -763,6 +808,136 @@ namespace FMP
         return _returnFromAndUpdateCache(url, key, key, LONG);
     }
 
+    ////////////
+    // Administrative
+    ////////////
+    Document FMPCloudAPI::getDelistedCompanyList(uint limit)
+    {
+        std::string url = _baseUrl + "v3/delisted-companies?limit=" + std::to_string(limit) + "&apikey=" + _apiKey;
+        std::string key = "delisted_companies" + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getSP500Constituents(bool historical)
+    {
+        std::string url = _baseUrl + "v3/" + (historical ? "historical/" : "") + "sp500_constituent?apikey=" + _apiKey;
+        std::string key = "sp500_constituent" + std::string(historical ? "historical" : "");
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getNasdaq100Constituents(bool historical)
+    {
+        std::string url = _baseUrl + "v3/" + (historical ? "historical/" : "") + "nasdaq_constituent?apikey=" + _apiKey;
+        std::string key = "nasdaq_constituent" + std::string(historical ? "historical" : "");
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getDJIAConstituents(bool historical)
+    {
+        std::string url = _baseUrl + "v3/" + (historical ? "historical/" : "") + "dowjones_constituent?apikey=" + _apiKey;
+        std::string key = "dowjones_constituent" + std::string(historical ? "historical" : "");
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getSymbolList()
+    {
+        std::string url = _baseUrl + "v3/stock/list?apikey=" + _apiKey;
+        std::string key = "symbol_list";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getETFList()
+    {
+        std::string url = _baseUrl + "v3/etf/list?apikey=" + _apiKey;
+        std::string key = "etf_list";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getTradableSymbolsList()
+    {
+        std::string url = _baseUrl + "v3/available-traded/list?apikey=" + _apiKey;
+        std::string key = "tradeable_symbols";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getTradingHours()
+    {
+        std::string url = _baseUrl + "v3/market-hours?apikey=" + _apiKey;
+        std::string key = "market_hours";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getCOTSymbolsList()
+    {
+        std::string url = _baseUrl + "v4/commitment_of_traders_report/list?apikey=" + _apiKey;
+        std::string key = "commitment_of_traders_report";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getCOTReportByPeriod(const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v4/commitment_of_traders_report?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        std::string key = "commitment_of_traders_report" + fromDate + toDate;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getCOTReportByTicker(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v4/commitment_of_traders_report/" + symbol + "?apikey=" + _apiKey;
+        std::cout << url << std::endl;
+        std::string key = "commitment_of_traders_report" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getCOTAnalysisByPeriod(const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v4/commitment_of_traders_report_analysis?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        std::string key = "commitment_of_traders_report_analysis" + fromDate + toDate;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getCOTAnalysisByTicker(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v4/commitment_of_traders_report_analysis/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "commitment_of_traders_report_analysis" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::get13FCIKList()
+    {
+        std::string url = _baseUrl + "v3/cik_list?apikey=" + _apiKey;
+        std::string key = "cik_list";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::searchCIKByName(const std::string& name)
+    {
+        std::string url = _baseUrl + "v3/cik-search/" + name + "?apikey=" + _apiKey;
+        std::string key = "cik_search" + name;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getNameByCIK(const std::string& CIK)
+    {
+        std::string url = _baseUrl + "v3/cik/" + CIK + "?apikey=" + _apiKey;
+        std::string key = "name_search" + CIK;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::get13FByCIK(const std::string& CIK, const std::string& date)
+    {
+        std::string url = _baseUrl + "v3/form-thirteen/" + CIK + "?date=" + date + "&apikey=" + _apiKey;
+        std::string key = "13f" + CIK + date;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::cusipMapper(const std::string& CUSIP)
+    {
+        std::string url = _baseUrl + "v3/cusip/" + CUSIP + "?apikey=" + _apiKey;
+        std::string key = "cusip_mapepr" + CUSIP;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
     /** END ENDPOINTS **/
 }
 

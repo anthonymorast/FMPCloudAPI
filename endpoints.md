@@ -120,7 +120,7 @@ Crossed out entries have been implemented in the API wrapper.
 + List of countries:  https://fmpcloud.io/api/v3/get-all-countries?apikey=APIKEY
 
 ## Delisted Companies
-+ Delisted Companies JSON:  https://fmpcloud.io/api/v3/delisted-companies?limit=100&apikey=APIKEY
++ ~~Delisted Companies JSON:  https://fmpcloud.io/api/v3/delisted-companies?limit=100&apikey=APIKEY~~
 
 ## Stock News
 + Multiple stocks news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL,FB,GOOG,AMZN&limit=100&apikey=APIKEY
@@ -247,25 +247,25 @@ Crossed out entries have been implemented in the API wrapper.
 + ~~All Nasdaq Prices JSON:  https://fmpcloud.io/api/v3/quotes/nasdaq?apikey=APIKEY~~
 
 ## List of S&P 500 companies 
-+ All S&P 500 constituents:  https://fmpcloud.io/api/v3/sp500_constituent?apikey=APIKEY
-+ Historical S&P 500 constituents List:  https://fmpcloud.io/api/v3/historical/sp500_constituent?apikey=APIKEY
++ ~~All S&P 500 constituents:  https://fmpcloud.io/api/v3/sp500_constituent?apikey=APIKEY~~
++ ~~Historical S&P 500 constituents List:  https://fmpcloud.io/api/v3/historical/sp500_constituent?apikey=APIKEY~~
 
 ## List of Nasdaq 100 companies
-+ All Nasdaq 100 constituents:  https://fmpcloud.io/api/v3/nasdaq_constituent?apikey=APIKEY
-+ Historical Nasdaq 100 constituents List:  https://fmpcloud.io/api/v3/historical/nasdaq_constituent?apikey=APIKEY
++ ~~All Nasdaq 100 constituents:  https://fmpcloud.io/api/v3/nasdaq_constituent?apikey=APIKEY~~
++ ~~Historical Nasdaq 100 constituents List:  https://fmpcloud.io/api/v3/historical/nasdaq_constituent?apikey=APIKEY~~
 
 ## List of Dow Jones companies
-+ All Dow Jones constituents:  https://fmpcloud.io/api/v3/dowjones_constituent?apikey=APIKEY
-+ Historical Dow Jones constituents List:  https://fmpcloud.io/api/v3/historical/dowjones_constituent?apikey=APIKEY
++ ~~All Dow Jones constituents:  https://fmpcloud.io/api/v3/dowjones_constituent?apikey=APIKEY~~
++ ~~Historical Dow Jones constituents List:  https://fmpcloud.io/api/v3/historical/dowjones_constituent?apikey=APIKEY~~
 
 ## Symbol List 
-+ Symbol List JSON:  https://fmpcloud.io/api/v3/stock/list?apikey=APIKEY
++ ~~Symbol List JSON:  https://fmpcloud.io/api/v3/stock/list?apikey=APIKEY~~
 
 ## ETF List 
-+ ETF List JSON:  https://fmpcloud.io/api/v3/etf/list?apikey=APIKEY
++ ~~ETF List JSON:  https://fmpcloud.io/api/v3/etf/list?apikey=APIKEY~~
 
 ## Tradable Symbols List 
-+ Tradable Symbols List JSON:  https://fmpcloud.io/api/v3/available-traded/list?apikey=APIKEY
++ ~~Tradable Symbols List JSON:  https://fmpcloud.io/api/v3/available-traded/list?apikey=APIKEY~~
 
 ## Batch EOD stock prices 
 + All stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices?date=2020-05-18&apikey=APIKEY
@@ -277,7 +277,7 @@ Crossed out entries have been implemented in the API wrapper.
 + Stock Market Top Gainers JSON:  https://fmpcloud.io/api/v3/gainers?apikey=APIKEY
 + Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/sectors-performance?apikey=APIKEY
 + Historical Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/historical-sectors-performance?limit=50&apikey=APIKEY
-+ Stock Market Trading Hours JSON:  https://fmpcloud.io/api/v3/market-hours?apikey=APIKEY
++ ~~Stock Market Trading Hours JSON:  https://fmpcloud.io/api/v3/market-hours?apikey=APIKEY~~
 
 ## Daily Indicators. 
 ### Types: SMA - EMA - WMA - DEMA - TEMA - williams - RSI - ADX - standardDeviation
@@ -292,15 +292,15 @@ Crossed out entries have been implemented in the API wrapper.
 + EMA 4 hours JSON:  https://fmpcloud.io/api/v3/technical_indicator/4hour/AAPL?period=10&type=ema&apikey=APIKEY
 
 ## COT Trading Symbols List
-+ List of symbols for COT JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report/list?apikey=APIKEY
++ ~~List of symbols for COT JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report/list?apikey=APIKEY~~
 
 ## Commitments of Traders Report
-+ List of reports for period of time JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report?from=2020-09-12&to=2021-01-01&apikey=APIKEY
-+ List of reports for specific symbol JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report/ES?apikey=APIKEY
++ ~~List of reports for period of time JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report?from=2020-09-12&to=2021-01-01&apikey=APIKEY~~
++ ~~List of reports for specific symbol JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report/ES?apikey=APIKEY~~
 
 ## Commitments of Traders Analysis
-+ Analysis of reports for time period JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report_analysis?from=2020-09-12&to=2021-01-01&apikey=APIKEY
-+ Analysis of reports for trading symbol JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report_analysis/M6?apikey=APIKEY
++ ~~Analysis of reports for time period JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report_analysis?from=2020-09-12&to=2021-01-01&apikey=APIKEY
++ ~~Analysis of reports for trading symbol JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report_analysis/M6?apikey=APIKEY~~
 
 ## Forex 
 + ~~Forex List And Price JSON:  https://fmpcloud.io/api/v3/fx?apikey=APIKEY~~
@@ -334,19 +334,19 @@ Crossed out entries have been implemented in the API wrapper.
 + Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?timeseries=5&apikey=APIKEY
 
 ## 13F List 
-+ 13F List JSON:  https://fmpcloud.io/api/v3/cik_list?apikey=APIKEY
++ ~~13F List JSON:  https://fmpcloud.io/api/v3/cik_list?apikey=APIKEY~~
 
 ## 13F cik search by name 
-+ 13F cik search by name JSON:  https://fmpcloud.io/api/v3/cik-search/Berkshire?apikey=APIKEY
++ ~~13F cik search by name JSON:  https://fmpcloud.io/api/v3/cik-search/Berkshire?apikey=APIKEY~~
 
 ## 13F get company name by cik 
-+ 13F get company name by cik JSON:  https://fmpcloud.io/api/v3/cik/0001067983?apikey=APIKEY
++ ~~13F get company name by cik JSON:  https://fmpcloud.io/api/v3/cik/0001067983?apikey=APIKEY~~
 
 ## 13F 
-+ 13F JSON:  https://fmpcloud.io/api/v3/form-thirteen/0001067983?date=2020-06-30&apikey=APIKEY
++ ~~13F JSON:  https://fmpcloud.io/api/v3/form-thirteen/0001067983?date=2020-06-30&apikey=APIKEY~~
 
 ## Cusip mapper 
-+ Cusip mapper JSON:  https://fmpcloud.io/api/v3/cusip/000360206?apikey=APIKEY
++ ~~Cusip mapper JSON:  https://fmpcloud.io/api/v3/cusip/000360206?apikey=APIKEY~~
 
 ## Will Not Implement
 ### Financial Statements as Reported On The U.S. Securities and Exchange Commission (SEC)
