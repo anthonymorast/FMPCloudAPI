@@ -30,6 +30,10 @@ namespace FMP
 
     enum CACHE_LENGTH { SHORT, LONG };
     enum PERIOD { ANNUAL, QUARTERLY, TTM };
+    enum TIME { ONE_MINUTE, FIVE_MINUTE, FIFTEEN_MINUTE, THIRTY_MINUTE, ONE_HOUR, FOUR_HOUR };
+    enum CRITERIA { MAX_MARKET_CAP, MIN_MARKET_CAP, MAX_BETA, MIN_BETA, 
+                    MAX_DIVIDEND, MIN_DIVIDEND, MAX_AVG_VOLUME, 
+                    MIN_AVG_VOLUME, MAX_PRICE, MIN_PRICE };
 
     struct FMPCloudAPI
     {
@@ -176,6 +180,30 @@ namespace FMP
         Document getNameByCIK(const std::string& CIK);                          // long cache
         Document get13FByCIK(const std::string& CIK, const std::string& date);  // long cache
         Document cusipMapper(const std::string& CUSIP);                         // long cache
+        Document getListOfCountries();                                          // long cache
+        /////////////
+        // HISTORICAL PRICES
+        /////////////
+        Document getHistoricalChart(const std::string& symbol, TIME timePeriod);// short cache
+        Document getDailyLine(const std::string& symbol);                       // long cache
+        Document getDailyChangeAndVolume(const std::string& symbol);            // long cache
+        Document getDailyDataByPeriod(const std::string& symbol, 
+            const std::string& fromDate, const std::string& toDate);            // long cache
+        Document getDailyDataXDays(const std::string& symbol, uint numDays);    // long cache
+        Document getDailyStockDividend(const std::string& symbol);              // long cache
+        Document getDailyStockSplit(const std::string& symbol);                 // long cache
+        ////////////
+        // Screeners
+        ////////////
+        Document screenSymbols(
+            const std::map<CRITERIA, int>& numericCriteriaMap={}, 
+            const std::vector<std::string>& countryList={},
+            const std::vector<std::string>& sectorList={},
+            const std::vector<std::string>& industryList={},
+            const std::vector<std::string>& exchangeList={},
+            bool isActivelyTrading=true, bool isEtf=false) const;               // no cache (too unweildy)
+        Document tickerSearch(const std::string& query, uint limit=10);         // long cache
+
 
         // ----------------- Helper Functions ---------------
         // on construction, create a timer to periodically expire the caches.
@@ -938,6 +966,288 @@ namespace FMP
         return _returnFromAndUpdateCache(url, key, key, LONG);
     }
     
+    Document FMPCloudAPI::getListOfCountries()
+    {
+        std::string url = _baseUrl + "v3/get-all-countries?apikey=" + _apiKey;
+        std::string key = "country_list";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    ////////////
+    // Historical Data
+    ////////////
+    Document FMPCloudAPI::getHistoricalChart(const std::string& symbol, TIME timePeriod)
+    {
+        std::string url = _baseUrl + "v3/historical-chart/";
+        std::string period {};
+        switch(timePeriod)
+        {
+            case ONE_MINUTE:
+                period = "1min";
+                break;
+            case FIVE_MINUTE:
+                period = "5min";
+                break;
+            case FIFTEEN_MINUTE:
+                period = "15min";
+                break;
+            case THIRTY_MINUTE:
+                period = "30min";
+                break;
+            case ONE_HOUR:
+                period = "1hour";
+                break;
+            case FOUR_HOUR:
+                period = "4hour";
+                break;
+            default:
+                return {};
+        }
+        url += period + "/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "historical_chart_" + symbol + period;
+        return _returnFromAndUpdateCache(url, key, key, SHORT);
+    }
+
+    Document FMPCloudAPI::getDailyLine(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/historical-price-full/" + symbol + "?serietype=line&apikey=" + _apiKey;
+        std::string key = "historical_price_full_seritype_" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getDailyChangeAndVolume(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/historical-price-full/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "historical_price_full_" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getDailyDataByPeriod(const std::string& symbol, const std::string& fromDate, const std::string& toDate)
+    {
+        std::string url = _baseUrl + "v3/historical-price-full/" + symbol + "?from=" + fromDate + "&to=" + toDate + "&apikey=" + _apiKey;
+        std::string key = "historical_price_full_byperiod_" + symbol + fromDate + toDate;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getDailyDataXDays(const std::string& symbol, uint numDays)
+    {
+        std::string url = _baseUrl + "v3/historical-price-full/" + symbol + "?timeseries=" + std::to_string(numDays) + "&apikey=" + _apiKey;
+        std::string key = "historical_price_full_bynumdays_" + symbol + std::to_string(numDays);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getDailyStockDividend(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/historical-price-full/stock_dividend/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "daily_stock_dividend" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getDailyStockSplit(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/historical-price-full/stock_split/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "daily_stock_split" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    ////////////
+    // Screener
+    ////////////
+    Document FMPCloudAPI::screenSymbols(const std::map<CRITERIA, int>& numericCriteriaMap, const std::vector<std::string>& countryList,
+            const std::vector<std::string>& sectorList, const std::vector<std::string>& industryList,
+            const std::vector<std::string>& exchangeList, bool isActivelyTrading, bool isEtf) const 
+    {
+        std::string url = _baseUrl + "v3/stock-screener?apikey=" + _apiKey;
+        std::string key = "symbol_screener";
+
+        bool first = true;
+        for(const auto& sector : sectorList)
+        {
+            url += (first ? "&sector=" : ",") + sector;
+            first = false;
+        }
+        first = true;
+        for(const auto& country : countryList)
+        {
+            url += (first ? "&country=" : ",") + country;
+            first = false;
+        }
+        first = true;
+        for(const auto& industry : industryList)
+        {
+            url += (first ? "&industry=" : ",") + industry;
+            first = false;
+        }
+        first = true;
+        for(const auto& exchange : exchangeList)
+        {
+            url += (first ? "&exchange=" : ",") + exchange;
+            first = false;
+        }
+
+        url += "&isActivelyTrading=" + std::string(isActivelyTrading ? "true" : "false");
+        url += "&isEtf=" + std::string(isEtf ? "true" : "false");
+
+        for(const auto& it : numericCriteriaMap)
+        {
+            std::string criteria {};
+            switch(it.first)
+            {
+                case MAX_MARKET_CAP:
+                    criteria = "marketCapMoreThan=" + std::to_string(it.second);
+                    break;  
+                case MIN_MARKET_CAP:
+                    criteria = "marketCapLowerThan=" + std::to_string(it.second);
+                    break;
+                case MAX_BETA:
+                    criteria = "betaMoreThan=" + std::to_string(it.second);
+                    break;
+                case MIN_BETA:
+                    criteria = "betaLowerThan=" + std::to_string(it.second);
+                    break;
+                case MAX_DIVIDEND:
+                    criteria = "dividendMoreThan=" + std::to_string(it.second);
+                    break;
+                case MIN_DIVIDEND:
+                    criteria = "dividendLowerThan=" + std::to_string(it.second);
+                    break;
+                case MAX_AVG_VOLUME:
+                    criteria = "volumeMoreThan=" + std::to_string(it.second);
+                    break;
+                case MIN_AVG_VOLUME:
+                    criteria = "volumeLowerThan=" + std::to_string(it.second);
+                    break;
+                case MAX_PRICE:
+                    criteria = "priceMoreThan=" + std::to_string(it.second);
+                    break;
+                case MIN_PRICE:
+                    criteria = "priceLowerThan=" + std::to_string(it.second);
+                    break;
+                default:
+                    std::cout << "(FMPCloudAPI::screenSymbols): Unkown numeric criteria." << std::endl;
+            }
+            url += "&" + criteria;
+        }
+
+        std::cout << "Screener URL: " << url << std::endl;
+        return _getNoCache(url, key);
+    }
+
+    Document FMPCloudAPI::tickerSearch(const std::string& query, uint limit)
+    {
+        std::string url = _baseUrl + "v3/search?apikey=" + _apiKey + "&query=" + query + "&limit=" + std::to_string(limit);
+        std::string key = "ticker_search" + query + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+//     ## Stock screener 
+// + Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapMoreThan=1000000000&limit=100&apikey=APIKEY
+// + Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=10000000&limit=100&apikey=APIKEY
+// + Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaMoreThan=1.2&limit=100&apikey=APIKEY
+// + Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaLowerThan=1&limit=100&apikey=APIKEY
+// + Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendMoreThan=1.2&limit=100&apikey=APIKEY
+// + Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendLowerThan=1&limit=100&apikey=APIKEY
+// + Average Volume Screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeMoreThan=1000&limit=100&apikey=APIKEY
+// + Average Volume screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeLowerThan=1000&limit=100&apikey=APIKEY
+// + Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&limit=100&apikey=APIKEY
+// + Market Capitalization & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=financial&marketCapMoreThan=10000000000&limit=100&apikey=APIKEY
+// + Market Capitalization & Beta & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&betaMoreThan=1.2&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY
+// + Market Capitalization & Sector screener & Industry screener JSON:  https://fmpcloud.io/api/v3/stock-screener?industry=Software&sector=tech&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY
+// + Multiple exchanges example:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=100000000000&betaMoreThan=1&volumeMoreThan=100&exchange=NYSE,NASDAQ&apikey=APIKEY
+// + Country example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&country=CA&apikey=APIKEY
+// + isEtf & isActivelyTrading example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&isActivelyTrading=true&isEtf=true&apikey=APIKEY
+
+
+    ////////////
+    // Misc.
+    ////////////
+//     ## Batch EOD stock prices 
+// + All stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices?date=2020-05-18&apikey=APIKEY
+// + Specific Stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices/AAPL,FB,MSFT?date=2020-01-06&apikey=APIKEY
+
+// ## Stock Market Performances 
+// + Stock Market Top Active JSON:  https://fmpcloud.io/api/v3/actives?apikey=APIKEY
+// + Stock Market Top Losers JSON:  https://fmpcloud.io/api/v3/losers?apikey=APIKEY
+// + Stock Market Top Gainers JSON:  https://fmpcloud.io/api/v3/gainers?apikey=APIKEY
+// + Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/sectors-performance?apikey=APIKEY
+// + Historical Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/historical-sectors-performance?limit=50&apikey=APIKEY
+
+// ## Daily Indicators. 
+// ### Types: SMA - EMA - WMA - DEMA - TEMA - williams - RSI - ADX - standardDeviation
+// + EMA Daily JSON:  https://fmpcloud.io/api/v3/technical_indicator/daily/AAPL?period=10&type=ema&apikey=APIKEY
+
+// ## Intraday Indicators
+// + EMA 1 minute JSON:  https://fmpcloud.io/api/v3/technical_indicator/1min/AAPL?period=10&type=ema&apikey=APIKEY
+// + EMA 5 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/5min/AAPL?period=10&type=ema&apikey=APIKEY
+// + EMA 15 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/15min/AAPL?period=10&type=ema&apikey=APIKEY
+// + EMA 30 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/30min/AAPL?period=10&type=ema&apikey=APIKEY
+// + EMA 1 hour JSON:  https://fmpcloud.io/api/v3/technical_indicator/1hour/AAPL?period=10&type=ema&apikey=APIKEY
+// + EMA 4 hours JSON:  https://fmpcloud.io/api/v3/technical_indicator/4hour/AAPL?period=10&type=ema&apikey=APIKEY
+
+// ## Company Profile 
+// + Company profile JSON:  https://fmpcloud.io/api/v3/profile/AAPL?apikey=APIKEY
+
+// ## Key Executives 
+// + Key Executives JSON:  https://fmpcloud.io/api/v3/key-executives/AAPL?apikey=APIKEY
+
+// ## Shares Float
+// + Shares Float for symbol JSON:  https://fmpcloud.io/api/v4/shares_float?symbol=AAPL&apikey=APIKEY
+// + All Shares Float available JSON:  https://fmpcloud.io/api/v4/shares_float/all?apikey=APIKEY
+
+// ## Rating 
+// + Rating JSON:  https://fmpcloud.io/api/v3/rating/AAPL?apikey=APIKEY
+// + Daily Historical Rating JSON:  https://fmpcloud.io/api/v3/historical-rating/AAPL?limit=100&apikey=APIKEY
+
+// ## Market Capitalization 
+// + Market Capitalization JSON:  https://fmpcloud.io/api/v3/market-capitalization/AAPL?apikey=APIKEY
+// + Daily Market Capitalization JSON:  https://fmpcloud.io/api/v3/historical-market-capitalization/AAPL?limit=100&apikey=APIKEY
+
+// ## Stock News
+// + Multiple stocks news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL,FB,GOOG,AMZN&limit=100&apikey=APIKEY
+// + Single stock news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL&limit=100&apikey=APIKEY
+// + Latest Stock News JSON:  https://fmpcloud.io/api/v3/stock_news?limit=50&apikey=APIKEY
+
+// ## Earning Call Transcript
+// + Earning call transcript JSON:  https://fmpcloud.io/api/v3/earning_call_transcript/AAPL?quarter=3&year=2020&apikey=APIKEY
+// + Dates of available transcripts for symbol JSON:  https://fmpcloud.io/api/v4/earning_call_transcript?symbol=AAPL&apikey=APIKEY
+// + Transcripts for symbol for specific year JSON:  https://fmpcloud.io/api/v4/batch_earning_call_transcript/AAPL?year=2020&apikey=APIKEY02
+
+// ## Earnings Surprises
+// + Earnings Surprises JSON:  https://fmpcloud.io/api/v3/earnings-surpises/AAPL?apikey=APIKEY
+
+// ## SEC Filings
+// + SEC Filings JSON:  https://fmpcloud.io/api/v3/sec_filings/AAPL?limit=500&apikey=APIKEY
+// + SEC Filings with type:  https://fmpcloud.io/api/v3/sec_filings/AAPL?type=10-K&limit=100&apikey=APIKEY
+
+// ## Press Releases
+// + Stock press releases JSON:  https://fmpcloud.io/api/v3/press-releases/AAPL?limit=100&apikey=APIKEY
+
+// ## List of dates and links
+// + Returns dates and links to data JSON:  https://fmpcloud.io/api/v4/financial-reports-dates?symbol=AAPL&apikey=APIKEY
+
+// ## Annual Reports on Form 10-K
+// + Annual Reports on Form 10-K. Period accepted: FY JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=FY&apikey=APIKEY
+
+// ## Quarterly Earnings Reports
+// + Quarterly Earnings Reports. Period accepted: Q1/Q2/Q3/Q4 JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=Q1&apikey=APIKEY
+
+// ## Fail to deliver
+// + Fail to deliver data for symbol JSON:  https://fmpcloud.io/api/v4/fail_to_deliver?symbol=GE&apikey=APIKEY
+
+// ## Standard Industrial Classification
+// + Standard Industrial Classification by CIK JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?cik=0000320193&apikey=APIKEY
+// + Standard Industrial Classification by symbol JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?symbol=AAPL&apikey=APIKEY
+// + Standard Industrial Classification by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?sicCode=3571&apikey=APIKEY
+// + Every Standard Industrial Classification available JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification/all?apikey=APIKEY
+// + Full Standard Industrial Classification List JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?apikey=APIKEY
+// + Standard Industrial Classification List by industry title JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?industryTitle=services&apikey=APIKEY
+// + Standard Industrial Classification Details by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?sicCode=3571&apikey=APIKEY
+
+// ## Stock Peers
+// + Stock peers based on sector, exchange and market cap JSON:  https://fmpcloud.io/api/v4/stock_peers?symbol=AAPL&apikey=APIKEY
+
+
+
     /** END ENDPOINTS **/
 }
 

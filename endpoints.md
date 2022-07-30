@@ -94,79 +94,77 @@ Crossed out entries have been implemented in the API wrapper.
 + ~~Quarter Historical DCF JSON:  https://fmpcloud.io/api/v3/historical-discounted-cash-flow-statement/AAPL?period=quarter&limit=120&apikey=APIKEY~~
 
 ## Rating 
-+ Rating JSON:  https://fmpcloud.io/api/v3/rating/AAPL?apikey=APIKEY
-+ Daily Historical Rating JSON:  https://fmpcloud.io/api/v3/historical-rating/AAPL?limit=100&apikey=APIKEY
++ ~~Rating JSON:  https://fmpcloud.io/api/v3/rating/AAPL?apikey=APIKEY~~
++ ~~Daily Historical Rating JSON:  https://fmpcloud.io/api/v3/historical-rating/AAPL?limit=100&apikey=APIKEY~~
 
 ## Market Capitalization 
-+ Market Capitalization JSON:  https://fmpcloud.io/api/v3/market-capitalization/AAPL?apikey=APIKEY
-+ Daily Market Capitalization JSON:  https://fmpcloud.io/api/v3/historical-market-capitalization/AAPL?limit=100&apikey=APIKEY
++ ~~Market Capitalization JSON:  https://fmpcloud.io/api/v3/market-capitalization/AAPL?apikey=APIKEY~~
++ ~~Daily Market Capitalization JSON:  https://fmpcloud.io/api/v3/historical-market-capitalization/AAPL?limit=100&apikey=APIKEY~~
 
 ## Stock screener 
-+ Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapMoreThan=1000000000&limit=100&apikey=APIKEY
-+ Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=10000000&limit=100&apikey=APIKEY
-+ Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaMoreThan=1.2&limit=100&apikey=APIKEY
-+ Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaLowerThan=1&limit=100&apikey=APIKEY
-+ Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendMoreThan=1.2&limit=100&apikey=APIKEY
-+ Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendLowerThan=1&limit=100&apikey=APIKEY
-+ Average Volume Screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeMoreThan=1000&limit=100&apikey=APIKEY
-+ Average Volume screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeLowerThan=1000&limit=100&apikey=APIKEY
-+ Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&limit=100&apikey=APIKEY
-+ Market Capitalization & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=financial&marketCapMoreThan=10000000000&limit=100&apikey=APIKEY
-+ Market Capitalization & Beta & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&betaMoreThan=1.2&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY
-+ Market Capitalization & Sector screener & Industry screener JSON:  https://fmpcloud.io/api/v3/stock-screener?industry=Software&sector=tech&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY
-+ Multiple exchanges example:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=100000000000&betaMoreThan=1&volumeMoreThan=100&exchange=NYSE,NASDAQ&apikey=APIKEY
-+ Country example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&country=CA&apikey=APIKEY
-+ isEtf & isActivelyTrading example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&isActivelyTrading=true&isEtf=true&apikey=APIKEY
-+ List of countries:  https://fmpcloud.io/api/v3/get-all-countries?apikey=APIKEY
++ ~~Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapMoreThan=1000000000&limit=100&apikey=APIKEY~~
++ ~~Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=10000000&limit=100&apikey=APIKEY~~
++ ~~Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaMoreThan=1.2&limit=100&apikey=APIKEY~~
++ ~~Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaLowerThan=1&limit=100&apikey=APIKEY~~
++ ~~Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendMoreThan=1.2&limit=100&apikey=APIKEY~~
++ ~~Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendLowerThan=1&limit=100&apikey=APIKEY~~
++ ~~Average Volume Screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeMoreThan=1000&limit=100&apikey=APIKEY~~
++ ~~Average Volume screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeLowerThan=1000&limit=100&apikey=APIKEY~~
++ ~~Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&limit=100&apikey=APIKEY~~
++ ~~Market Capitalization & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=financial&marketCapMoreThan=10000000000&limit=100&apikey=APIKEY~~
++ ~~Market Capitalization & Beta & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&betaMoreThan=1.2&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY~~
++ ~~Market Capitalization & Sector screener & Industry screener JSON:  https://fmpcloud.io/api/v3/stock-screener?industry=Software&sector=tech&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY~~
++ ~~Multiple exchanges example:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=100000000000&betaMoreThan=1&volumeMoreThan=100&exchange=NYSE,NASDAQ&apikey=APIKEY~~
++ ~~Country example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&country=CA&apikey=APIKEY~~
++ ~~isEtf & isActivelyTrading example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&isActivelyTrading=true&isEtf=true&apikey=APIKEY~~
++ ~~List of countries:  https://fmpcloud.io/api/v3/get-all-countries?apikey=APIKEY~~
 
 ## Delisted Companies
 + ~~Delisted Companies JSON:  https://fmpcloud.io/api/v3/delisted-companies?limit=100&apikey=APIKEY~~
 
 ## Stock News
-+ Multiple stocks news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL,FB,GOOG,AMZN&limit=100&apikey=APIKEY
-+ Single stock news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL&limit=100&apikey=APIKEY
-+ Latest Stock News JSON:  https://fmpcloud.io/api/v3/stock_news?limit=50&apikey=APIKEY
++ ~~Multiple stocks news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL,FB,GOOG,AMZN&limit=100&apikey=APIKEY~~
++ ~~Single stock news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL&limit=100&apikey=APIKEY~~
++ ~~Latest Stock News JSON:  https://fmpcloud.io/api/v3/stock_news?limit=50&apikey=APIKEY~~
 
 ## Earning Call Transcript
-+ Earning call transcript JSON:  https://fmpcloud.io/api/v3/earning_call_transcript/AAPL?quarter=3&year=2020&apikey=APIKEY
-+ Dates of available transcripts for symbol JSON:  https://fmpcloud.io/api/v4/earning_call_transcript?symbol=AAPL&apikey=APIKEY
-+ Transcripts for symbol for specific year JSON:  https://fmpcloud.io/api/v4/batch_earning_call_transcript/AAPL?year=2020&apikey=APIKEY
++ ~~Earning call transcript JSON:  https://fmpcloud.io/api/v3/earning_call_transcript/AAPL?quarter=3&year=2020&apikey=APIKEY~~
++ ~~Dates of available transcripts for symbol JSON:  https://fmpcloud.io/api/v4/earning_call_transcript?symbol=AAPL&apikey=APIKEY~~
++ ~~Transcripts for symbol for specific year JSON:  https://fmpcloud.io/api/v4/batch_earning_call_transcript/AAPL?year=2020&apikey=APIKEY02~~
 
 ## Earnings Surprises
-+ Earnings Surprises JSON:  https://fmpcloud.io/api/v3/earnings-surpises/AAPL?apikey=APIKEY
++ ~~Earnings Surprises JSON:  https://fmpcloud.io/api/v3/earnings-surpises/AAPL?apikey=APIKEY~~
 
 ## SEC Filings
-+ SEC Filings JSON:  https://fmpcloud.io/api/v3/sec_filings/AAPL?limit=500&apikey=APIKEY
-+ SEC Filings with type:  https://fmpcloud.io/api/v3/sec_filings/AAPL?type=10-K&limit=100&apikey=APIKEY
++ ~~SEC Filings JSON:  https://fmpcloud.io/api/v3/sec_filings/AAPL?limit=500&apikey=APIKEY~~
++ ~~SEC Filings with type:  https://fmpcloud.io/api/v3/sec_filings/AAPL?type=10-K&limit=100&apikey=APIKEY~~
 
 ## Press Releases
-+ Stock press releases JSON:  https://fmpcloud.io/api/v3/press-releases/AAPL?limit=100&apikey=APIKEY
++ ~~Stock press releases JSON:  https://fmpcloud.io/api/v3/press-releases/AAPL?limit=100&apikey=APIKEY~~
 
 ## List of dates and links
-+ Returns dates and links to data JSON:  https://fmpcloud.io/api/v4/financial-reports-dates?symbol=AAPL&apikey=APIKEY
++ ~~Returns dates and links to data JSON:  https://fmpcloud.io/api/v4/financial-reports-dates?symbol=AAPL&apikey=APIKEY~~
 
 ## Annual Reports on Form 10-K
-+ Annual Reports on Form 10-K. Period accepted: FY JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=FY&apikey=APIKEY
-+ Excel Annual Reports on Form 10-K. Period accepted: FY XLSX:  https://fmpcloud.io/api/v4/financial-reports-xlsx?symbol=AAPL&year=2020&period=FY&apikey=APIKEY
++ ~~Annual Reports on Form 10-K. Period accepted: FY JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=FY&apikey=APIKEY~~
 
 ## Quarterly Earnings Reports
-+ Quarterly Earnings Reports. Period accepted: Q1/Q2/Q3/Q4 JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=Q1&apikey=APIKEY
-+ Excel Quarterly Earnings Reports. Period accepted: Q1/Q2/Q3/Q4 XLSX:  https://fmpcloud.io/api/v4/financial-reports-xlsx?symbol=AAPL&year=2020&period=Q1&apikey=APIKEY
++ ~~Quarterly Earnings Reports. Period accepted: Q1/Q2/Q3/Q4 JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=Q1&apikey=APIKEY~~
 
 ## Fail to deliver
-+ Fail to deliver data for symbol JSON:  https://fmpcloud.io/api/v4/fail_to_deliver?symbol=GE&apikey=APIKEY
++ ~~Fail to deliver data for symbol JSON:  https://fmpcloud.io/api/v4/fail_to_deliver?symbol=GE&apikey=APIKEY~~
 
 ## Standard Industrial Classification
-+ Standard Industrial Classification by CIK JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?cik=0000320193&apikey=APIKEY
-+ Standard Industrial Classification by symbol JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?symbol=AAPL&apikey=APIKEY
-+ Standard Industrial Classification by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?sicCode=3571&apikey=APIKEY
-+ Every Standard Industrial Classification available JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification/all?apikey=APIKEY
-+ Full Standard Industrial Classification List JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?apikey=APIKEY
-+ Standard Industrial Classification List by industry title JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?industryTitle=services&apikey=APIKEY
-+ Standard Industrial Classification Details by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?sicCode=3571&apikey=APIKEY
++ ~~Standard Industrial Classification by CIK JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?cik=0000320193&apikey=APIKEY~~
++ ~~Standard Industrial Classification by symbol JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?symbol=AAPL&apikey=APIKEY~~
++ ~~Standard Industrial Classification by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?sicCode=3571&apikey=APIKEY~~
++ ~~Every Standard Industrial Classification available JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification/all?apikey=APIKEY~~
++ ~~Full Standard Industrial Classification List JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?apikey=APIKEY~~
++ ~~Standard Industrial Classification List by industry title JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?industryTitle=services&apikey=APIKEY~~
++ ~~Standard Industrial Classification Details by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?sicCode=3571&apikey=APIKEY~~
 
 ## Stock Peers
-+ Stock peers based on sector, exchange and market cap JSON:  https://fmpcloud.io/api/v4/stock_peers?symbol=AAPL&apikey=APIKEY
++ ~~Stock peers based on sector, exchange and market cap JSON:  https://fmpcloud.io/api/v4/stock_peers?symbol=AAPL&apikey=APIKEY~~
 
 ## Sectors PE Ratio
 + ~~Average price to earnings ratio for sectors JSON:  https://fmpcloud.io/api/v4/sector_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY~~
@@ -175,8 +173,8 @@ Crossed out entries have been implemented in the API wrapper.
 + ~~Average price to earnings ratio for industries JSON:  https://fmpcloud.io/api/v4/industry_price_earning_ratio?date=2021-05-07&exchange=NYSE&apikey=APIKEY~~
 
 ## Shares Float
-+ Shares Float for symbol JSON:  https://fmpcloud.io/api/v4/shares_float?symbol=AAPL&apikey=APIKEY
-+ All Shares Float available JSON:  https://fmpcloud.io/api/v4/shares_float/all?apikey=APIKEY
++ ~~Shares Float for symbol JSON:  https://fmpcloud.io/api/v4/shares_float?symbol=AAPL&apikey=APIKEY~~
++ ~~All Shares Float available JSON:  https://fmpcloud.io/api/v4/shares_float/all?apikey=APIKEY~~
 
 ## Institutional Stock Ownership
 + ~~Institutional Stock Ownership JSON:  https://fmpcloud.io/api/v4/institutional-ownership/symbol-ownership?symbol=AAPL&includeCurrentQuarter=false&apikey=APIKEY~~
@@ -205,26 +203,26 @@ Crossed out entries have been implemented in the API wrapper.
 ## Ticker search exchange 
 (nasdaq | nyse | tsx | euronext | mutual_fund | etf | amex | index | commodity | forex | crypto) 
 
-+ Ticker search JSON:  https://fmpcloud.io/api/v3/search?query=AA&limit=10&exchange=NASDAQ&apikey=APIKEY
++ ~~Ticker search JSON:  https://fmpcloud.io/api/v3/search?query=AA&limit=10&exchange=NASDAQ&apikey=APIKEY~~
 
 ## Company Profile 
-+ Company profile JSON:  https://fmpcloud.io/api/v3/profile/AAPL?apikey=APIKEY
++ ~~Company profile JSON:  https://fmpcloud.io/api/v3/profile/AAPL?apikey=APIKEY~~
 
 ## Key Executives 
-+ Key Executives JSON:  https://fmpcloud.io/api/v3/key-executives/AAPL?apikey=APIKEY
++ ~~Key Executives JSON:  https://fmpcloud.io/api/v3/key-executives/AAPL?apikey=APIKEY~~
 
 ## Historical stock data 
-+ 1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/AAPL?apikey=APIKEY
-+ 5 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/5min/AAPL?sapikey=APIKEY
-+ 15 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/15min/AAPL?apikey=APIKEY
-+ 30 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/30min/AAPL?apikey=APIKEY
-+ 1 hour JSON:  https://fmpcloud.io/api/v3/historical-chart/1hour/AAPL?apikey=APIKEY
-+ Daily Line JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?serietype=line&apikey=APIKEY
-+ Daily Change and volume JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?apikey=APIKEY
-+ Daily Specific period JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=APIKEY
-+ Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?timeseries=5&apikey=APIKEY
-+ Daily Stock dividend JSON:  https://fmpcloud.io/api/v3/historical-price-full/stock_dividend/AAPL?apikey=APIKEY
-+ Daily Stock split JSON:  https://fmpcloud.io/api/v3/historical-price-full/stock_split/AAPL?apikey=APIKEY
++ ~~1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/AAPL?apikey=APIKEY~~
++ ~~5 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/5min/AAPL?sapikey=APIKEY~~
++ ~~15 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/15min/AAPL?apikey=APIKEY~~
++ ~~30 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/30min/AAPL?apikey=APIKEY~~
++ ~~1 hour JSON:  https://fmpcloud.io/api/v3/historical-chart/1hour/AAPL?apikey=APIKEY~~
++ ~~Daily Line JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?serietype=line&apikey=APIKEY~~
++ ~~Daily Change and volume JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?apikey=APIKEY~~
++ ~~Daily Specific period JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?from=2018-03-12&to=2019-03-12&apikey=APIKEY~~
++ ~~Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/AAPL?timeseries=5&apikey=APIKEY~~
++ ~~Daily Stock dividend JSON:  https://fmpcloud.io/api/v3/historical-price-full/stock_dividend/AAPL?apikey=APIKEY~~
++ ~~Daily Stock split JSON:  https://fmpcloud.io/api/v3/historical-price-full/stock_split/AAPL?apikey=APIKEY~~
 
 ## Available Market and Tickers 
 + ~~ETF symbol available JSON:  https://fmpcloud.io/api/v3/symbol/available-etfs?apikey=APIKEY~~
@@ -268,28 +266,28 @@ Crossed out entries have been implemented in the API wrapper.
 + ~~Tradable Symbols List JSON:  https://fmpcloud.io/api/v3/available-traded/list?apikey=APIKEY~~
 
 ## Batch EOD stock prices 
-+ All stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices?date=2020-05-18&apikey=APIKEY
-+ Specific Stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices/AAPL,FB,MSFT?date=2020-01-06&apikey=APIKEY
++ ~~All stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices?date=2020-05-18&apikey=APIKEY~~
++ ~~Specific Stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices/AAPL,FB,MSFT?date=2020-01-06&apikey=APIKEY~~
 
 ## Stock Market Performances 
-+ Stock Market Top Active JSON:  https://fmpcloud.io/api/v3/actives?apikey=APIKEY
-+ Stock Market Top Losers JSON:  https://fmpcloud.io/api/v3/losers?apikey=APIKEY
-+ Stock Market Top Gainers JSON:  https://fmpcloud.io/api/v3/gainers?apikey=APIKEY
-+ Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/sectors-performance?apikey=APIKEY
-+ Historical Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/historical-sectors-performance?limit=50&apikey=APIKEY
++ ~~Stock Market Top Active JSON:  https://fmpcloud.io/api/v3/actives?apikey=APIKEY~~
++ ~~Stock Market Top Losers JSON:  https://fmpcloud.io/api/v3/losers?apikey=APIKEY~~
++ ~~Stock Market Top Gainers JSON:  https://fmpcloud.io/api/v3/gainers?apikey=APIKEY~~
++ ~~Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/sectors-performance?apikey=APIKEY~~
++ ~~Historical Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/historical-sectors-performance?limit=50&apikey=APIKEY~~
 + ~~Stock Market Trading Hours JSON:  https://fmpcloud.io/api/v3/market-hours?apikey=APIKEY~~
 
 ## Daily Indicators. 
 ### Types: SMA - EMA - WMA - DEMA - TEMA - williams - RSI - ADX - standardDeviation
-+ EMA Daily JSON:  https://fmpcloud.io/api/v3/technical_indicator/daily/AAPL?period=10&type=ema&apikey=APIKEY
++ ~~EMA Daily JSON:  https://fmpcloud.io/api/v3/technical_indicator/daily/AAPL?period=10&type=ema&apikey=APIKEY~~
 
 ## Intraday Indicators
-+ EMA 1 minute JSON:  https://fmpcloud.io/api/v3/technical_indicator/1min/AAPL?period=10&type=ema&apikey=APIKEY
-+ EMA 5 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/5min/AAPL?period=10&type=ema&apikey=APIKEY
-+ EMA 15 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/15min/AAPL?period=10&type=ema&apikey=APIKEY
-+ EMA 30 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/30min/AAPL?period=10&type=ema&apikey=APIKEY
-+ EMA 1 hour JSON:  https://fmpcloud.io/api/v3/technical_indicator/1hour/AAPL?period=10&type=ema&apikey=APIKEY
-+ EMA 4 hours JSON:  https://fmpcloud.io/api/v3/technical_indicator/4hour/AAPL?period=10&type=ema&apikey=APIKEY
++ ~~EMA 1 minute JSON:  https://fmpcloud.io/api/v3/technical_indicator/1min/AAPL?period=10&type=ema&apikey=APIKEY~~
++ ~~EMA 5 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/5min/AAPL?period=10&type=ema&apikey=APIKEY~~
++ ~~EMA 15 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/15min/AAPL?period=10&type=ema&apikey=APIKEY~~
++ ~~EMA 30 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/30min/AAPL?period=10&type=ema&apikey=APIKEY~~
++ ~~EMA 1 hour JSON:  https://fmpcloud.io/api/v3/technical_indicator/1hour/AAPL?period=10&type=ema&apikey=APIKEY~~
++ ~~EMA 4 hours JSON:  https://fmpcloud.io/api/v3/technical_indicator/4hour/AAPL?period=10&type=ema&apikey=APIKEY~~
 
 ## COT Trading Symbols List
 + ~~List of symbols for COT JSON:  https://fmpcloud.io/api/v4/commitment_of_traders_report/list?apikey=APIKEY~~
@@ -308,30 +306,30 @@ Crossed out entries have been implemented in the API wrapper.
 + ~~All FOREX Prices JSON:  https://fmpcloud.io/api/v3/quotes/forex?apikey=APIKEY~~
 
 ## Historical Forex data 
-+ 1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/JPYUSD?apikey=APIKEY
-+ 5 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/5min/JPYUSD?sapikey=APIKEY
-+ 15 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/15min/JPYUSD?apikey=APIKEY
-+ 30 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/30min/JPYUSD?apikey=APIKEY
-+ 1 hour JSON:  https://fmpcloud.io/api/v3/historical-chart/1hour/JPYUSD?apikey=APIKEY
-+ Daily Line JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?serietype=line&apikey=APIKEY
-+ Daily Change and volume JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?apikey=APIKEY
-+ Daily Specific period JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?from=2018-03-12&to=2019-03-12&apikey=APIKEY
-+ Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?timeseries=5&apikey=APIKEY
++ ~~1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/JPYUSD?apikey=APIKEY~~
++ ~~5 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/5min/JPYUSD?sapikey=APIKEY~~
++ ~~15 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/15min/JPYUSD?apikey=APIKEY~~
++ ~~30 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/30min/JPYUSD?apikey=APIKEY~~
++ ~~1 hour JSON:  https://fmpcloud.io/api/v3/historical-chart/1hour/JPYUSD?apikey=APIKEY~~
++ ~~Daily Line JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?serietype=line&apikey=APIKEY~~
++ ~~Daily Change and volume JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?apikey=APIKEY~~
++ ~~Daily Specific period JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?from=2018-03-12&to=2019-03-12&apikey=APIKEY~~
++ ~~Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/JPYUSD?timeseries=5&apikey=APIKEY~~
 
 ## Crypto 
 + ~~Crypto available JSON:  https://fmpcloud.io/api/v3/symbol/available-cryptocurrencies?apikey=APIKEY~~
 + ~~All Crypto Prices JSON:  https://fmpcloud.io/api/v3/quotes/crypto?apikey=APIKEY~~
 
 ## Historical Crypto data 
-+ 1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/BTCUSD?apikey=APIKEY
-+ 5 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/5min/BTCUSD?sapikey=APIKEY
-+ 15 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/15min/BTCUSD?apikey=APIKEY
-+ 30 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/30min/BTCUSD?apikey=APIKEY
-+ 1 hour JSON:  https://fmpcloud.io/api/v3/historical-chart/1hour/BTCUSD?apikey=APIKEY
-+ Daily Line JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?serietype=line&apikey=APIKEY
-+ Daily Change and volume JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?apikey=APIKEY
-+ Daily Specific period JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?from=2018-03-12&to=2019-03-12&apikey=APIKEY
-+ Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?timeseries=5&apikey=APIKEY
++ ~~1 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/1min/BTCUSD?apikey=APIKEY~~
++ ~~5 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/5min/BTCUSD?sapikey=APIKEY~~
++ ~~15 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/15min/BTCUSD?apikey=APIKEY~~
++ ~~30 minute JSON:  https://fmpcloud.io/api/v3/historical-chart/30min/BTCUSD?apikey=APIKEY~~
++ ~~1 hour JSON:  https://fmpcloud.io/api/v3/historical-chart/1hour/BTCUSD?apikey=APIKEY~~
++ ~~Daily Line JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?serietype=line&apikey=APIKEY~~
++ ~~Daily Change and volume JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?apikey=APIKEY~~
++ ~~Daily Specific period JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?from=2018-03-12&to=2019-03-12&apikey=APIKEY~~
++ ~~Daily Last x days JSON:  https://fmpcloud.io/api/v3/historical-price-full/BTCUSD?timeseries=5&apikey=APIKEY~~
 
 ## 13F List 
 + ~~13F List JSON:  https://fmpcloud.io/api/v3/cik_list?apikey=APIKEY~~
@@ -363,3 +361,5 @@ Crossed out entries have been implemented in the API wrapper.
 + RSS Feed of form 3,4 and 5 JSON:  https://fmpcloud.io/api/v4/insider-trading-rss-feed?limit=50&apikey=APIKEY
 + Stock Ownership by Holders JSON:  https://fmpcloud.io/api/v4/institutional-ownership/institutional-holders/symbol-ownership-percent?date=2021-09-30&symbol=AAPL&page=0&apikey=APIKEY
 + Institutional Holders Available Date JSON:  https://fmpcloud.io/api/v4/institutional-ownership/portfolio-date?cik=0001067983&apikey=APIKEY
++ Excel Annual Reports on Form 10-K. Period accepted: FY XLSX:  https://fmpcloud.io/api/v4/financial-reports-xlsx?symbol=AAPL&year=2020&period=FY&apikey=APIKEY
++ Excel Quarterly Earnings Reports. Period accepted: Q1/Q2/Q3/Q4 XLSX:  https://fmpcloud.io/api/v4/financial-reports-xlsx?symbol=AAPL&year=2020&period=Q1&apikey=APIKEY
