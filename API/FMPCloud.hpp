@@ -1094,34 +1094,34 @@ namespace FMP
             switch(it.first)
             {
                 case MAX_MARKET_CAP:
-                    criteria = "marketCapMoreThan=" + std::to_string(it.second);
+                    criteria = "marketCapLowerThan=" + std::to_string(it.second);
                     break;  
                 case MIN_MARKET_CAP:
-                    criteria = "marketCapLowerThan=" + std::to_string(it.second);
+                    criteria = "marketCapMoreThan=" + std::to_string(it.second);
                     break;
                 case MAX_BETA:
-                    criteria = "betaMoreThan=" + std::to_string(it.second);
-                    break;
-                case MIN_BETA:
                     criteria = "betaLowerThan=" + std::to_string(it.second);
                     break;
-                case MAX_DIVIDEND:
-                    criteria = "dividendMoreThan=" + std::to_string(it.second);
+                case MIN_BETA:
+                    criteria = "betaMoreThan=" + std::to_string(it.second);
                     break;
-                case MIN_DIVIDEND:
+                case MAX_DIVIDEND:
                     criteria = "dividendLowerThan=" + std::to_string(it.second);
                     break;
-                case MAX_AVG_VOLUME:
-                    criteria = "volumeMoreThan=" + std::to_string(it.second);
+                case MIN_DIVIDEND:
+                    criteria = "dividendMoreThan=" + std::to_string(it.second);
                     break;
-                case MIN_AVG_VOLUME:
+                case MAX_AVG_VOLUME:
                     criteria = "volumeLowerThan=" + std::to_string(it.second);
                     break;
+                case MIN_AVG_VOLUME:
+                    criteria = "volumeMoreThan=" + std::to_string(it.second);
+                    break;
                 case MAX_PRICE:
-                    criteria = "priceMoreThan=" + std::to_string(it.second);
+                    criteria = "priceLowerThan=" + std::to_string(it.second);
                     break;
                 case MIN_PRICE:
-                    criteria = "priceLowerThan=" + std::to_string(it.second);
+                    criteria = "priceMoreThan=" + std::to_string(it.second);
                     break;
                 default:
                     std::cout << "(FMPCloudAPI::screenSymbols): Unkown numeric criteria." << std::endl;
@@ -1139,23 +1139,6 @@ namespace FMP
         std::string key = "ticker_search" + query + std::to_string(limit);
         return _returnFromAndUpdateCache(url, key, key, LONG);
     }
-    
-//     ## Stock screener 
-// + Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapMoreThan=1000000000&limit=100&apikey=APIKEY
-// + Market Capitalization screener JSON:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=10000000&limit=100&apikey=APIKEY
-// + Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaMoreThan=1.2&limit=100&apikey=APIKEY
-// + Beta screener JSON:  https://fmpcloud.io/api/v3/stock-screener?betaLowerThan=1&limit=100&apikey=APIKEY
-// + Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendMoreThan=1.2&limit=100&apikey=APIKEY
-// + Dividend screener JSON:  https://fmpcloud.io/api/v3/stock-screener?dividendLowerThan=1&limit=100&apikey=APIKEY
-// + Average Volume Screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeMoreThan=1000&limit=100&apikey=APIKEY
-// + Average Volume screener JSON:  https://fmpcloud.io/api/v3/stock-screener?volumeLowerThan=1000&limit=100&apikey=APIKEY
-// + Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&limit=100&apikey=APIKEY
-// + Market Capitalization & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=financial&marketCapMoreThan=10000000000&limit=100&apikey=APIKEY
-// + Market Capitalization & Beta & Sector screener JSON:  https://fmpcloud.io/api/v3/stock-screener?sector=tech&betaMoreThan=1.2&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY
-// + Market Capitalization & Sector screener & Industry screener JSON:  https://fmpcloud.io/api/v3/stock-screener?industry=Software&sector=tech&marketCapLowerThan=10000000000&limit=100&apikey=APIKEY
-// + Multiple exchanges example:  https://fmpcloud.io/api/v3/stock-screener?marketCapLowerThan=100000000000&betaMoreThan=1&volumeMoreThan=100&exchange=NYSE,NASDAQ&apikey=APIKEY
-// + Country example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&country=CA&apikey=APIKEY
-// + isEtf & isActivelyTrading example:  https://fmpcloud.io/api/v3/stock-screener?limit=100&priceMoreThan=100&isActivelyTrading=true&isEtf=true&apikey=APIKEY
 
 
     ////////////
@@ -1245,8 +1228,6 @@ namespace FMP
 
 // ## Stock Peers
 // + Stock peers based on sector, exchange and market cap JSON:  https://fmpcloud.io/api/v4/stock_peers?symbol=AAPL&apikey=APIKEY
-
-
 
     /** END ENDPOINTS **/
 }
