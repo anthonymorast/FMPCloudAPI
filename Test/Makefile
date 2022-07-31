@@ -1,5 +1,5 @@
 CFLAGS=--std=c++17 -Wno-psabi -lcurl -lpthread
-EXES=Quotes Calendar Profile FinancialStatements Valuations HoldersAndWeightings HistoricalData Administrative Screener Misc
+EXES=Quotes Calendar Profile FinancialStatements Valuations HoldersAndWeightings HistoricalData Administrative Screener Misc Functionality
 
 Test: all
 	./Quotes
@@ -12,6 +12,7 @@ Test: all
 	./Administrative
 	./Screener
 	./Misc
+	./Functionality
 
 all: $(EXES)
 
@@ -47,6 +48,9 @@ Misc: Misc.o
 
 Screener: Screener.o
 	g++ $(CFLAGS) -o Screener $<
+
+Functionality: Functionality.o
+	g++ $(CFLAGS) -o Functionality $<
 
 clean:
 	rm -rf *.o $(EXES)

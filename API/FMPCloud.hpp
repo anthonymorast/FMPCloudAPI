@@ -19,7 +19,7 @@ using namespace rapidjson;
 
 namespace FMP
 {
-    
+    using CString = const std::string;
     std::mutex _shortMtx;
     std::mutex _longMtx;
     struct FMPCloudAPIError : public std::runtime_error
@@ -30,16 +30,16 @@ namespace FMP
 
     enum CACHE_LENGTH { SHORT, LONG };
     enum PERIOD { ANNUAL, QUARTERLY, TTM };
-    enum TIME { ONE_MINUTE, FIVE_MINUTE, FIFTEEN_MINUTE, THIRTY_MINUTE, ONE_HOUR, FOUR_HOUR };
+    enum TIME { ONE_MINUTE, FIVE_MINUTE, FIFTEEN_MINUTE, THIRTY_MINUTE, ONE_HOUR, FOUR_HOUR, DAILY };
     enum CRITERIA { MAX_MARKET_CAP, MIN_MARKET_CAP, MAX_BETA, MIN_BETA, 
                     MAX_DIVIDEND, MIN_DIVIDEND, MAX_AVG_VOLUME, 
                     MIN_AVG_VOLUME, MAX_PRICE, MIN_PRICE };
+    enum INDICATOR_TYPE {SMA, EMA, WMA, DEMA, TEMA, WILLIAMS, RSI, ADX, STDDEV};
 
     struct FMPCloudAPI
     {
         FMPCloudAPI(std::string apiKey) : _apiKey(apiKey) 
         {
-            /* TODO: implement timers */
             /* NOTE: These only come into play if the object is persisted for > 30 seconds. */
             // https://stackoverflow.com/questions/21057676/need-to-call-a-function-at-periodic-time-intervals-in-c
             std::thread([this]()
@@ -47,9 +47,9 @@ namespace FMP
                 while (true)
                 { 
                     auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(600000);
-                    // std::cout << "Clearing Cache" << std::endl;
-                    // this->_expireLongCache();
-                    // std::cout << "Cache Cleared" << std::endl;
+                    if(!this)
+                        return;
+                    this->_expireLongCache();
                     std::this_thread::sleep_until(x);
                 }
             }).detach();        // expire long cache every 10 minutes
@@ -59,7 +59,9 @@ namespace FMP
                 while (true)
                 { 
                     auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(30000);
-                    // this->_expireShortCache();
+                    if(!this)
+                        return;
+                    this->_expireShortCache();
                     std::this_thread::sleep_until(x);
                 }
             }).detach();        // expire short cache every 30 seconds
@@ -203,7 +205,33 @@ namespace FMP
             const std::vector<std::string>& exchangeList={},
             bool isActivelyTrading=true, bool isEtf=false) const;               // no cache (too unweildy)
         Document tickerSearch(const std::string& query, uint limit=10);         // long cache
-
+        ////////////
+        // Profile
+        ////////////
+        Document getCompanyProfile(const std::string& symbol);                  // long cache
+        Document getKeyExecutives(const std::string& symbol);                   // long cache
+        Document getSharesFloat(const std::string& symbol);                     // long cache
+        Document getAllSharesFloat();                                           // long cache
+        Document getRating(const std::string& symbol);                          // long cache
+        Document getHistoricalRating(const std::string& symbol, uint limit=100);// long cache
+        Document getMarketCap(const std::string& symbol);                       // long cache
+        Document getDailyMarketCap(const std::string& symbol, uint limit=100);  // long cache
+        Document getStockNews(
+            const std::vector<std::string>& tickers = {}, uint limit=100) const;// no cache
+        Document getEarningsCallTranscripts(
+            const std::string& symbol, uint quarter=0, uint year=0);            // long cache
+        Document getEarningsCallTranscriptDates(
+            const std::string& symbol, uint quarter=0, uint year=0);            // long cache
+        Document getEarningsCallTranscriptsForYear(
+            const std::string& symbol, uint year=0);                            // long cache
+        Document getEarningsSurprises(const std::string& symbol);               // long cache
+        Document getSECFilings(const std::string& symbol, 
+            const std::string& type="", uint limit=100);                        // long cache
+        Document getPressReleases(const std::string& symbol, uint limit=100);   // long cache
+        Document getFinancialReportDates(CString& symbol);                      // long cache
+        Document get10xReports(CString& symbol, uint year, CString& period);    // long cache
+        Document getStockPeers(CString& symbol);                                // long cache
+        Document getFailToDeliver(CString& symbol);                             // long cache
 
         // ----------------- Helper Functions ---------------
         // on construction, create a timer to periodically expire the caches.
@@ -224,18 +252,18 @@ namespace FMP
 
             std::string _getCachedContents(std::string key, CACHE_LENGTH length) const;
             void _cache(std::string key, std::string results, CACHE_LENGTH length);
+            // TODO: expire...
             void _expireShortCache() 
             { 
-                _shortMtx.lock(); 
-                _shortjsonContentsCache.clear(); 
-                _shortMtx.unlock(); 
+                // _shortMtx.lock(); 
+                // _shortjsonContentsCache.clear(); 
+                // _shortMtx.unlock(); 
             }
             void _expireLongCache() 
             { 
-                std::cout << "Expiring the cache, sir!" << std::endl;
-                _longMtx.lock(); 
-                _longJsonContentsCache.clear(); 
-                _longMtx.unlock(); 
+                // _longMtx.lock(); 
+                // _longJsonContentsCache.clear(); 
+                // _longMtx.unlock(); 
             }
     };
 
@@ -1140,6 +1168,155 @@ namespace FMP
         return _returnFromAndUpdateCache(url, key, key, LONG);
     }
 
+    ////////////
+    // Profile
+    ////////////
+    Document FMPCloudAPI::getCompanyProfile(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/profile/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "profile_" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+
+    Document FMPCloudAPI::getKeyExecutives(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/key-executives/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "key-executives" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getSharesFloat(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v4/shares_float?symbol=" + symbol + "&apikey=" + _apiKey;
+        std::string key = "shares_float" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getAllSharesFloat()
+    {
+        std::string url = _baseUrl + "v4/shares_float/all?apikey=" + _apiKey;
+        std::string key = "shares_float_all";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getRating(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/rating/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "rating" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getHistoricalRating(const std::string& symbol, uint limit)
+    {
+        std::string url = _baseUrl + "v3/historical-rating/" + symbol + "?apikey=" + _apiKey + "&limit=" + std::to_string(limit);
+        std::string key = "historical-rating" + symbol + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getMarketCap(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/market-capitalization/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "market-capitalization" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getDailyMarketCap(const std::string& symbol, uint limit)
+    {
+        std::string url = _baseUrl + "v3/historical-market-capitalization/" + symbol + "?apikey=" + _apiKey + "&limit=" + std::to_string(limit);
+        std::string key = "historical-market-capitalization" + symbol + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getStockNews(const std::vector<std::string>& tickers, uint limit) const
+    {
+        auto tickerString = _toCommaDelimited(tickers);
+        std::string url = _baseUrl + "v3/stock_news?apikey=" + _apiKey + "&limit=" + std::to_string(limit) 
+                                   + std::string(tickerString.empty() ? tickerString : "&tickers=" + tickerString);
+        std::string key = "stock_news" + tickerString + std::to_string(limit);
+        return _getNoCache(url, key);
+    }
+    
+    Document FMPCloudAPI::getEarningsCallTranscripts(const std::string& symbol, uint quarter, uint year)
+    {
+        std::string url = _baseUrl + "v3/earning_call_transcript/" + symbol + "?apikey=" + _apiKey
+                                   + std::string(quarter == 0 ? "" : "&quarter=" + std::to_string(quarter))
+                                   + std::string(year == 0 ? "" : "&year=" + std::to_string(year));
+        std::string key = "earning_call_transcript" + symbol + std::to_string(quarter) + std::to_string(year);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getEarningsCallTranscriptDates(const std::string& symbol, uint quarter, uint year)
+    {
+        std::string url = _baseUrl + "v4/earning_call_transcript?symbol=" + symbol 
+                                   + "&apikey=" + _apiKey
+                                   + std::string(quarter == 0 ? "" : "&quarter=" + std::to_string(quarter))
+                                   + std::string(year == 0 ? "" : "&year=" + std::to_string(year));
+        std::string key = "earning_call_transcript_dates" + symbol + std::to_string(quarter) + std::to_string(year);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getEarningsCallTranscriptsForYear(const std::string& symbol, uint year)
+    {
+        std::string url = _baseUrl + "v4/batch_earning_call_transcript/" + symbol 
+                                   + "?apikey=" + _apiKey
+                                   + std::string(year == 0 ? "" : "&year=" + std::to_string(year));
+        std::string key = "batch_earning_call_transcript" + symbol + std::to_string(year);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getEarningsSurprises(const std::string& symbol)
+    {
+        std::string url = _baseUrl + "v3/earnings-surpises/" + symbol + "?apikey=" + _apiKey;
+        std::string key = "earnings-surpises" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getSECFilings(const std::string& symbol, const std::string& type, uint limit)
+    {
+        std::string url = _baseUrl + "v3/sec_filings/" + symbol + "?apikey=" + _apiKey
+                                   + std::string(type.empty() ? "" : "&type=" + type)
+                                   + "&limit=" + std::to_string(limit);
+        std::string key = "sec_filings" + symbol + type + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getPressReleases(const std::string& symbol, uint limit)
+    {
+        std::string url = _baseUrl + "v3/press-releases/" + symbol + "?apikey=" + _apiKey + "&limit=" + std::to_string(limit);
+        std::string key = "press-releases" + symbol + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getFinancialReportDates(CString& symbol)
+    {
+        std::string url = _baseUrl + "v4/financial-reports-dates?symbol=" + symbol + "&apikey=" + _apiKey;
+        std::string key = "financial-reports-dates" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::get10xReports(CString& symbol, uint year, const std::string& period)
+    {
+        // valid periods: FY, Q1, Q2, Q3, Q4
+        std::string url = _baseUrl + "v3/financial-reports-json?symbol=" + symbol + "&apikey=" + _apiKey
+                                   + "&year=" + std::to_string(year)
+                                   + "&period=" + period;
+        std::string key = "financial-reports-json" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getStockPeers(CString& symbol)
+    {
+        std::string url = _baseUrl + "v4/stock_peers?symbol=" + symbol + "&apikey=" + _apiKey;
+        std::string key = "stock_peers" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getFailToDeliver(CString& symbol)
+    {
+        std::string url = _baseUrl + "v4/fail_to_deliver?symbol=" + symbol + "&apikey=" + _apiKey;
+        std::string key = "fail_to_deliver" + symbol;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
     ////////////
     // Misc.
@@ -1155,6 +1332,8 @@ namespace FMP
 // + Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/sectors-performance?apikey=APIKEY
 // + Historical Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/historical-sectors-performance?limit=50&apikey=APIKEY
 
+
+    // enum INDICATOR_TYPE {SMA, EMA, WMA, DEMA, TEMA, WILLIAMS, RSI, ADX, STDDEV}
 // ## Daily Indicators. 
 // ### Types: SMA - EMA - WMA - DEMA - TEMA - williams - RSI - ADX - standardDeviation
 // + EMA Daily JSON:  https://fmpcloud.io/api/v3/technical_indicator/daily/AAPL?period=10&type=ema&apikey=APIKEY
@@ -1167,56 +1346,6 @@ namespace FMP
 // + EMA 1 hour JSON:  https://fmpcloud.io/api/v3/technical_indicator/1hour/AAPL?period=10&type=ema&apikey=APIKEY
 // + EMA 4 hours JSON:  https://fmpcloud.io/api/v3/technical_indicator/4hour/AAPL?period=10&type=ema&apikey=APIKEY
 
-// ## Company Profile 
-// + Company profile JSON:  https://fmpcloud.io/api/v3/profile/AAPL?apikey=APIKEY
-
-// ## Key Executives 
-// + Key Executives JSON:  https://fmpcloud.io/api/v3/key-executives/AAPL?apikey=APIKEY
-
-// ## Shares Float
-// + Shares Float for symbol JSON:  https://fmpcloud.io/api/v4/shares_float?symbol=AAPL&apikey=APIKEY
-// + All Shares Float available JSON:  https://fmpcloud.io/api/v4/shares_float/all?apikey=APIKEY
-
-// ## Rating 
-// + Rating JSON:  https://fmpcloud.io/api/v3/rating/AAPL?apikey=APIKEY
-// + Daily Historical Rating JSON:  https://fmpcloud.io/api/v3/historical-rating/AAPL?limit=100&apikey=APIKEY
-
-// ## Market Capitalization 
-// + Market Capitalization JSON:  https://fmpcloud.io/api/v3/market-capitalization/AAPL?apikey=APIKEY
-// + Daily Market Capitalization JSON:  https://fmpcloud.io/api/v3/historical-market-capitalization/AAPL?limit=100&apikey=APIKEY
-
-// ## Stock News
-// + Multiple stocks news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL,FB,GOOG,AMZN&limit=100&apikey=APIKEY
-// + Single stock news JSON:  https://fmpcloud.io/api/v3/stock_news?tickers=AAPL&limit=100&apikey=APIKEY
-// + Latest Stock News JSON:  https://fmpcloud.io/api/v3/stock_news?limit=50&apikey=APIKEY
-
-// ## Earning Call Transcript
-// + Earning call transcript JSON:  https://fmpcloud.io/api/v3/earning_call_transcript/AAPL?quarter=3&year=2020&apikey=APIKEY
-// + Dates of available transcripts for symbol JSON:  https://fmpcloud.io/api/v4/earning_call_transcript?symbol=AAPL&apikey=APIKEY
-// + Transcripts for symbol for specific year JSON:  https://fmpcloud.io/api/v4/batch_earning_call_transcript/AAPL?year=2020&apikey=APIKEY02
-
-// ## Earnings Surprises
-// + Earnings Surprises JSON:  https://fmpcloud.io/api/v3/earnings-surpises/AAPL?apikey=APIKEY
-
-// ## SEC Filings
-// + SEC Filings JSON:  https://fmpcloud.io/api/v3/sec_filings/AAPL?limit=500&apikey=APIKEY
-// + SEC Filings with type:  https://fmpcloud.io/api/v3/sec_filings/AAPL?type=10-K&limit=100&apikey=APIKEY
-
-// ## Press Releases
-// + Stock press releases JSON:  https://fmpcloud.io/api/v3/press-releases/AAPL?limit=100&apikey=APIKEY
-
-// ## List of dates and links
-// + Returns dates and links to data JSON:  https://fmpcloud.io/api/v4/financial-reports-dates?symbol=AAPL&apikey=APIKEY
-
-// ## Annual Reports on Form 10-K
-// + Annual Reports on Form 10-K. Period accepted: FY JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=FY&apikey=APIKEY
-
-// ## Quarterly Earnings Reports
-// + Quarterly Earnings Reports. Period accepted: Q1/Q2/Q3/Q4 JSON:  https://fmpcloud.io/api/v4/financial-reports-json?symbol=AAPL&year=2020&period=Q1&apikey=APIKEY
-
-// ## Fail to deliver
-// + Fail to deliver data for symbol JSON:  https://fmpcloud.io/api/v4/fail_to_deliver?symbol=GE&apikey=APIKEY
-
 // ## Standard Industrial Classification
 // + Standard Industrial Classification by CIK JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?cik=0000320193&apikey=APIKEY
 // + Standard Industrial Classification by symbol JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?symbol=AAPL&apikey=APIKEY
@@ -1226,8 +1355,6 @@ namespace FMP
 // + Standard Industrial Classification List by industry title JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?industryTitle=services&apikey=APIKEY
 // + Standard Industrial Classification Details by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?sicCode=3571&apikey=APIKEY
 
-// ## Stock Peers
-// + Stock peers based on sector, exchange and market cap JSON:  https://fmpcloud.io/api/v4/stock_peers?symbol=AAPL&apikey=APIKEY
 
     /** END ENDPOINTS **/
 }
