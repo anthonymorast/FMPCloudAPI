@@ -20,6 +20,8 @@ using namespace rapidjson;
 namespace FMP
 {
     using CString = const std::string;
+    using CStringVector = const std::vector<std::string>;
+
     std::mutex _shortMtx;
     std::mutex _longMtx;
     struct FMPCloudAPIError : public std::runtime_error
@@ -35,6 +37,7 @@ namespace FMP
                     MAX_DIVIDEND, MIN_DIVIDEND, MAX_AVG_VOLUME, 
                     MIN_AVG_VOLUME, MAX_PRICE, MIN_PRICE };
     enum INDICATOR_TYPE {SMA, EMA, WMA, DEMA, TEMA, WILLIAMS, RSI, ADX, STDDEV};
+    enum STOCK_MARKET_TOP { ACTIVE, LOSERS, GAINERS };
 
     struct FMPCloudAPI
     {
@@ -232,7 +235,22 @@ namespace FMP
         Document get10xReports(CString& symbol, uint year, CString& period);    // long cache
         Document getStockPeers(CString& symbol);                                // long cache
         Document getFailToDeliver(CString& symbol);                             // long cache
-
+        ////////////
+        // Misc.
+        ////////////
+        Document getBatchEODPrices(
+            CStringVector& tickerList={}, CString& date="");                    // long cache
+        Document getStockMarketPerformers(STOCK_MARKET_TOP smt);                // long cache
+        Document getSectorPerformance(bool historical=false, uint limit=50);    // long cache
+        Document getTechnicalIndicatorData(
+            CString& symbol, TIME time, INDICATOR_TYPE type, uint numPeriods);  // long cache
+        Document getSpecificStandardIndustrialClassification(
+            CString& cik="", CString& symbol="", CString& sicCode="");          // long cache
+        Document getAllStandardIndustrialClassification();                      // long cache
+        Document getAllStandardIndustrialClassificationList();                  // long cache
+        Document getSpecificStandardIndustrialClassificationList(
+            CString& industry="", CString& sicCode="");                         // long cache
+    
         // ----------------- Helper Functions ---------------
         // on construction, create a timer to periodically expire the caches.
         void expireCache() { _expireLongCache(); _expireShortCache(); };
@@ -252,18 +270,18 @@ namespace FMP
 
             std::string _getCachedContents(std::string key, CACHE_LENGTH length) const;
             void _cache(std::string key, std::string results, CACHE_LENGTH length);
-            // TODO: expire...
+            // TODO: test or remove...
             void _expireShortCache() 
             { 
-                // _shortMtx.lock(); 
-                // _shortjsonContentsCache.clear(); 
-                // _shortMtx.unlock(); 
+                _shortMtx.lock(); 
+                _shortjsonContentsCache.clear(); 
+                _shortMtx.unlock(); 
             }
             void _expireLongCache() 
             { 
-                // _longMtx.lock(); 
-                // _longJsonContentsCache.clear(); 
-                // _longMtx.unlock(); 
+                _longMtx.lock(); 
+                _longJsonContentsCache.clear(); 
+                _longMtx.unlock(); 
             }
     };
 
@@ -1321,40 +1339,154 @@ namespace FMP
     ////////////
     // Misc.
     ////////////
-//     ## Batch EOD stock prices 
-// + All stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices?date=2020-05-18&apikey=APIKEY
-// + Specific Stocks Batch EOD stock prices JSON:  https://fmpcloud.io/api/v3/batch-request-end-of-day-prices/AAPL,FB,MSFT?date=2020-01-06&apikey=APIKEY
+    Document FMPCloudAPI::getBatchEODPrices(CStringVector& tickerList, CString& date)
+    {
+        auto tickerString = _toCommaDelimited(tickerList);
+        std::string url = _baseUrl + "v3/batch-request-end-of-day-prices" 
+                + std::string(tickerList.empty() ? "" : "/" + tickerString)
+                + "?apikey=" + _apiKey
+                + std::string(date.empty() ? "" : "&date=" + date);
+        std::string key = "batch_eod_prices_" + date + tickerString;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getStockMarketPerformers(STOCK_MARKET_TOP smt)
+    {
+        std::string top {""};
+        switch (smt)
+        {
+            case ACTIVE:
+                top = "actives";
+                break;
+            case LOSERS:
+                top = "losers";
+                break;
+            case GAINERS:
+                top = "gainers";
+                break;
+            default:
+                break;
+        }
+        std::string url = _baseUrl + "v3/" + top + "?apikey=" + _apiKey;
+        return _returnFromAndUpdateCache(url, top, top, LONG);
+    }
+    
+    Document FMPCloudAPI::getSectorPerformance(bool historical, uint limit)
+    {
+        std::string url = _baseUrl + "/v3" 
+                + std::string(historical ? "historical-" : "") + "sectors-performance?"
+                + "limit=" + std::to_string(limit)
+                + "&apikey=" + _apiKey;
+        std::string key = std::string(historical ? "historical_" : "") + "sectors_performance" + std::to_string(limit);
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getTechnicalIndicatorData(CString& symbol, TIME time, INDICATOR_TYPE type, uint numPeriods)
+    {
+        std::string typeString {""}, timeString {""};
+        switch(time)
+        {
+            case DAILY:
+                timeString = "daily";
+                break;
+            case ONE_MINUTE:
+                timeString = "1min";
+                break;
+            case FIVE_MINUTE:
+                timeString = "5min";
+                break;
+            case FIFTEEN_MINUTE:
+                timeString = "15min";
+                break;
+            case ONE_HOUR:
+                timeString = "1hour";
+                break;
+            case FOUR_HOUR:
+                timeString = "4hour";
+                break;
+            case THIRTY_MINUTE:
+                timeString = "30min";
+                break;
+            default:
+                return {};
+        }
 
-// ## Stock Market Performances 
-// + Stock Market Top Active JSON:  https://fmpcloud.io/api/v3/actives?apikey=APIKEY
-// + Stock Market Top Losers JSON:  https://fmpcloud.io/api/v3/losers?apikey=APIKEY
-// + Stock Market Top Gainers JSON:  https://fmpcloud.io/api/v3/gainers?apikey=APIKEY
-// + Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/sectors-performance?apikey=APIKEY
-// + Historical Stock Market Sector Performance JSON:  https://fmpcloud.io/api/v3/historical-sectors-performance?limit=50&apikey=APIKEY
+        switch(type)
+        {
+            case EMA:
+                typeString = "ema";
+                break;
+            case SMA:
+                typeString = "sma";
+                break;
+            case WMA:
+                typeString = "wma";
+                break;
+            case DEMA:
+                typeString = "dema";
+                break;
+            case TEMA:
+                typeString = "tema";
+                break;
+            case WILLIAMS:
+                typeString = "williams";
+                break;
+            case RSI:
+                typeString = "rsi";
+                break;
+            case ADX:
+                typeString = "adx";
+                break;
+            case STDDEV:
+                typeString = "standardDeviation";
+                break;
+            default:
+                return {};
+        }
+        
+        std::string url = _baseUrl + "v3/technical_indicator/" + timeString + "/" + symbol + "?apikey=" + _apiKey
+                        + "&period=" + std::to_string(numPeriods) + "&type=" + typeString;
+        std::string key = "technical_indicator" + timeString + symbol + std::to_string(numPeriods) + typeString;
+        return _returnFromAndUpdateCache(url, key, key, SHORT);
+    }
+    
+    Document FMPCloudAPI::getSpecificStandardIndustrialClassification(CString& cik, CString& symbol, CString& sicCode)
+    {
+        if(cik.empty() && symbol.empty() && sicCode.empty())
+            return {};
+        
+        std::string url = _baseUrl + "v4/standard_industrial_classification?apikey=" + _apiKey
+                + std::string(cik.empty() ? "" : "cik=" + cik)
+                + std::string(symbol.empty() ? "" : "symbol=" + symbol)
+                + std::string(sicCode.empty() ? "" : "sicCode=" + sicCode);
+        std::string key = "standard_industrial_classification" + cik + symbol + sicCode;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getAllStandardIndustrialClassification()
+    {
+        std::string url = _baseUrl + "v4/standard_industrial_classification/all?apikey=" + _apiKey;
+        std::string key = "standard_industrial_classification_all";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
+    
+    Document FMPCloudAPI::getAllStandardIndustrialClassificationList()
+    {
+        std::string url = _baseUrl + "v4/standard_industrial_classification_list?apikey=" + _apiKey;
+        std::string key = "standard_industrial_classification_list";
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
-
-    // enum INDICATOR_TYPE {SMA, EMA, WMA, DEMA, TEMA, WILLIAMS, RSI, ADX, STDDEV}
-// ## Daily Indicators. 
-// ### Types: SMA - EMA - WMA - DEMA - TEMA - williams - RSI - ADX - standardDeviation
-// + EMA Daily JSON:  https://fmpcloud.io/api/v3/technical_indicator/daily/AAPL?period=10&type=ema&apikey=APIKEY
-
-// ## Intraday Indicators
-// + EMA 1 minute JSON:  https://fmpcloud.io/api/v3/technical_indicator/1min/AAPL?period=10&type=ema&apikey=APIKEY
-// + EMA 5 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/5min/AAPL?period=10&type=ema&apikey=APIKEY
-// + EMA 15 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/15min/AAPL?period=10&type=ema&apikey=APIKEY
-// + EMA 30 minutes JSON:  https://fmpcloud.io/api/v3/technical_indicator/30min/AAPL?period=10&type=ema&apikey=APIKEY
-// + EMA 1 hour JSON:  https://fmpcloud.io/api/v3/technical_indicator/1hour/AAPL?period=10&type=ema&apikey=APIKEY
-// + EMA 4 hours JSON:  https://fmpcloud.io/api/v3/technical_indicator/4hour/AAPL?period=10&type=ema&apikey=APIKEY
-
-// ## Standard Industrial Classification
-// + Standard Industrial Classification by CIK JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?cik=0000320193&apikey=APIKEY
-// + Standard Industrial Classification by symbol JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?symbol=AAPL&apikey=APIKEY
-// + Standard Industrial Classification by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification?sicCode=3571&apikey=APIKEY
-// + Every Standard Industrial Classification available JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification/all?apikey=APIKEY
-// + Full Standard Industrial Classification List JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?apikey=APIKEY
-// + Standard Industrial Classification List by industry title JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?industryTitle=services&apikey=APIKEY
-// + Standard Industrial Classification Details by SIC Code JSON:  https://fmpcloud.io/api/v4/standard_industrial_classification_list?sicCode=3571&apikey=APIKEY
-
+    Document FMPCloudAPI::getSpecificStandardIndustrialClassificationList(CString& industry, CString& sicCode)
+    {
+        if(industry.empty() && sicCode.empty())
+            return {};
+        std::string url = _baseUrl + "v4/standard_industrial_classification_list?apikey=" + _apiKey
+                + std::string(industry.empty() ? "" : "&industry=" + industry)
+                + std::string(sicCode.empty() ? "" : "&sicCode=" + sicCode);
+        std::string key = "standard_industrial_classification_list" + industry + sicCode;
+        return _returnFromAndUpdateCache(url, key, key, LONG);
+    }
 
     /** END ENDPOINTS **/
 }
