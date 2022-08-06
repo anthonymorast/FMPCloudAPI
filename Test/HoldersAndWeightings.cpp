@@ -1,8 +1,8 @@
 #include "Global.hpp"
 
+auto api = getAPIObject();
 TEST_CASE("Holders")
 {
-    auto api = getAPIObject();
     SECTION("Institutional")
     {
         auto results = api.getInstitutionalStockHolders("INTC");
@@ -34,7 +34,6 @@ TEST_CASE("Holders")
 
 TEST_CASE("Weightings")
 {
-    auto api = getAPIObject();
     SECTION("Sector")
     {
         auto results = api.getETFSectorWeightings("SPY");
@@ -56,8 +55,6 @@ TEST_CASE("Weightings")
 
 TEST_CASE("Ownership")
 {
-    auto api = getAPIObject();
-
     SECTION("Institutional Portfolio Holdings")
     {
         auto results = api.getInstitutionalHoldingSummary("0001067983");
@@ -100,7 +97,6 @@ TEST_CASE("Ownership")
 
 TEST_CASE("Insiders")
 {
-    auto api = getAPIObject();
     SECTION("By Ticker")
     {
         auto results = api.searchInsiderTradingBySymbol("AAPL");
@@ -160,6 +156,4 @@ TEST_CASE("Insiders")
         REQUIRE(std::strcmp(results[0]["symbol"].GetString(), "TGT") == 0);  
         REQUIRE(results[0].HasMember("companyCik"));
     }
-
-
 }

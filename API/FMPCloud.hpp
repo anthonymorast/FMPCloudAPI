@@ -1365,7 +1365,7 @@ namespace FMP
                 top = "gainers";
                 break;
             default:
-                break;
+                return {};
         }
         std::string url = _baseUrl + "v3/" + top + "?apikey=" + _apiKey;
         return _returnFromAndUpdateCache(url, top, top, LONG);
@@ -1373,7 +1373,7 @@ namespace FMP
     
     Document FMPCloudAPI::getSectorPerformance(bool historical, uint limit)
     {
-        std::string url = _baseUrl + "/v3" 
+        std::string url = _baseUrl + "v3/" 
                 + std::string(historical ? "historical-" : "") + "sectors-performance?"
                 + "limit=" + std::to_string(limit)
                 + "&apikey=" + _apiKey;
@@ -1456,9 +1456,9 @@ namespace FMP
             return {};
         
         std::string url = _baseUrl + "v4/standard_industrial_classification?apikey=" + _apiKey
-                + std::string(cik.empty() ? "" : "cik=" + cik)
-                + std::string(symbol.empty() ? "" : "symbol=" + symbol)
-                + std::string(sicCode.empty() ? "" : "sicCode=" + sicCode);
+                + std::string(cik.empty() ? "" : "&cik=" + cik)
+                + std::string(symbol.empty() ? "" : "&symbol=" + symbol)
+                + std::string(sicCode.empty() ? "" : "&sicCode=" + sicCode);
         std::string key = "standard_industrial_classification" + cik + symbol + sicCode;
         return _returnFromAndUpdateCache(url, key, key, LONG);
     }

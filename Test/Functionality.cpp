@@ -2,10 +2,9 @@
 #include <chrono>
 #include <thread>
 
-
+auto api = getAPIObject();
 TEST_CASE("Caching")
 {
-    auto api = getAPIObject();
     SECTION("Clear Cache")
     {
         // NOTE: verified works with output statements

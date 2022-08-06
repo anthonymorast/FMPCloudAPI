@@ -53,4 +53,4 @@ Functionality: Functionality.o
 	g++ $(CFLAGS) -o Functionality $<
 
 clean:
-	rm -rf *.o $(EXES)
+	rm -rf *.o $(EXES) *.json

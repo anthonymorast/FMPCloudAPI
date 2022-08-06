@@ -1,8 +1,8 @@
 #include "Global.hpp"
 
+auto api = getAPIObject();
 TEST_CASE("Profile")
 {
-    auto api = getAPIObject();
     SECTION("Profile")
     {
         auto results = api.getCompanyProfile("AAPL");
@@ -15,8 +15,7 @@ TEST_CASE("Profile")
 }
 
 TEST_CASE("Key Executives")
-{
-    auto api = getAPIObject();
+{   
     SECTION("Executives")
     {
         auto results = api.getKeyExecutives("AAPL");
@@ -30,7 +29,6 @@ TEST_CASE("Key Executives")
 
 TEST_CASE("Stock Peers")
 {
-    auto api = getAPIObject();
     SECTION("Peers")
     {
         auto results = api.getStockPeers("AAPL");
@@ -43,8 +41,7 @@ TEST_CASE("Stock Peers")
 }
 
 TEST_CASE("Shares Float")
-{
-    auto api = getAPIObject();
+{  
     SECTION("Shares Float")
     {
         auto results = api.getSharesFloat("AAPL");
@@ -70,7 +67,6 @@ TEST_CASE("Shares Float")
 
 TEST_CASE("Rating")
 {
-    auto api = getAPIObject();
     SECTION("Rating")
     {
         auto results = api.getRating("AAPL");
@@ -96,7 +92,6 @@ TEST_CASE("Rating")
 
 TEST_CASE("Earnings Surprises")
 {
-    auto api = getAPIObject();
     SECTION("Earnings Surprises")
     {
         auto results = api.getEarningsSurprises("AAPL");
@@ -111,7 +106,6 @@ TEST_CASE("Earnings Surprises")
 
 TEST_CASE("Earnings Transcripts")
 {
-    auto api = getAPIObject();
     SECTION("Earnings Transcripts")
     {
         auto results = api.getEarningsCallTranscripts("AAPL", 1, 2020);
@@ -146,7 +140,6 @@ TEST_CASE("Earnings Transcripts")
 
 TEST_CASE("Market Cap")
 {
-    auto api = getAPIObject();
     SECTION("Market Cap")
     {
         auto results = api.getMarketCap("AAPL");
@@ -177,7 +170,6 @@ TEST_CASE("Market Cap")
 
 TEST_CASE("SEC Filings")
 {
-    auto api = getAPIObject();
     SECTION("SEC Filings")
     {
         auto results = api.getSECFilings("AAPL");
@@ -210,7 +202,6 @@ TEST_CASE("SEC Filings")
 
 TEST_CASE("Press Releases")
 {
-    auto api = getAPIObject();
     SECTION("Press Releases")
     {
         auto results = api.getPressReleases("AAPL", 10);
@@ -225,7 +216,6 @@ TEST_CASE("Press Releases")
 
 TEST_CASE("Financial Report Dates")
 {
-    auto api = getAPIObject();
     SECTION("Financial Report Dates")
     {
         auto results = api.getFinancialReportDates("AAPL");
@@ -240,7 +230,6 @@ TEST_CASE("Financial Report Dates")
 
 TEST_CASE("10x Reports")
 {
-    auto api = getAPIObject();
     SECTION("10x Reports")
     {
         auto results = api.get10xReports("AAPL", 2020, "Q1");
@@ -250,7 +239,6 @@ TEST_CASE("10x Reports")
 
 TEST_CASE("Fail to Deliver")
 {
-    auto api = getAPIObject();
     SECTION("Earnings Surprises")
     {
         auto results = api.getFailToDeliver("AAPL");
@@ -261,7 +249,6 @@ TEST_CASE("Fail to Deliver")
 
 TEST_CASE("Stock News")
 {
-    auto api = getAPIObject();
     SECTION("Stock News")
     {
         auto results = api.getStockNews({"AAPL"}, 10);

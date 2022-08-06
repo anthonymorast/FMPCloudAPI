@@ -1,8 +1,8 @@
 #include "Global.hpp"
 
+auto api = getAPIObject();
 TEST_CASE("Ticker Lists")
 {
-    auto api = getAPIObject();
     SECTION("Delisted")
     {
         auto results = api.getDelistedCompanyList();
@@ -120,7 +120,6 @@ TEST_CASE("Ticker Lists")
 
 TEST_CASE("Misc")
 {
-    auto api = getAPIObject();
     SECTION("Trading Hours")
     {
         auto results = api.getTradingHours();
@@ -136,7 +135,6 @@ TEST_CASE("Misc")
 
 TEST_CASE("Commitment of Traders")
 {
-    auto api = getAPIObject();
     SECTION("COT List")
     {
         auto results = api.getCOTSymbolsList();
@@ -147,5 +145,5 @@ TEST_CASE("Commitment of Traders")
 
 TEST_CASE("13F")
 {
-    auto api = getAPIObject();
+    
 }

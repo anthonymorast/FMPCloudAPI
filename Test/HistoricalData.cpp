@@ -1,8 +1,8 @@
 #include "Global.hpp"
 
+auto api = getAPIObject();
 TEST_CASE("Historical Chart")
 {
-    auto api = getAPIObject();
     SECTION("Stocks")
     {
         auto results = api.getHistoricalChart("INTC", ONE_MINUTE);
@@ -195,7 +195,6 @@ TEST_CASE("Historical Chart")
 
 TEST_CASE("Daily Line")
 {
-    auto api = getAPIObject();
     SECTION("Stocks")
     {
         auto results = api.getDailyLine("PARA");
@@ -229,7 +228,6 @@ TEST_CASE("Daily Line")
 
 TEST_CASE("Daily Data by Period")
 {
-    auto api = getAPIObject();
     SECTION("Stocks")
     {
         auto results = api.getDailyDataByPeriod("QCOM", "2021-01-01", "2021-12-31");
@@ -263,7 +261,6 @@ TEST_CASE("Daily Data by Period")
 
 TEST_CASE("Daily Data by X days")
 {
-    auto api = getAPIObject();
     SECTION("Stocks")
     {
         auto results = api.getDailyDataXDays("AAPL", 10);
@@ -318,7 +315,6 @@ TEST_CASE("Daily Data by X days")
 
 TEST_CASE("Splits and Dividends")
 {
-    auto api = getAPIObject();
     SECTION("Stock Splits")
     {
         auto results = api.getDailyStockSplit("AAPL");

@@ -1,8 +1,8 @@
 #include "Global.hpp"
 
+auto api = getAPIObject();
 TEST_CASE("Stock Quotes")
 {
-	auto api = getAPIObject();
 	SECTION("Fetch Single Stock")
 	{
 		Document results = api.getStockQuote("AAPL");
@@ -22,7 +22,6 @@ TEST_CASE("Stock Quotes")
 
 TEST_CASE("Crypto Quotes")
 {
-	auto api = getAPIObject();
 	SECTION("Available Crypto")
 	{
 		Document results = api.getAvailableCrypto();
@@ -51,7 +50,6 @@ TEST_CASE("Crypto Quotes")
 
 TEST_CASE("FOREX Quotes")
 {
-	auto api = getAPIObject();
 	SECTION("Available FOREX")
 	{
 		Document results = api.getAvailableForex();
@@ -88,7 +86,6 @@ TEST_CASE("FOREX Quotes")
 
 TEST_CASE("Other Availability and Quotes")
 {
-	auto api = getAPIObject();
 	SECTION("ETF")
 	{
 		auto results = api.getAvailableEtf();

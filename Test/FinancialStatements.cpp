@@ -1,8 +1,9 @@
 #include "Global.hpp"
 
+
+auto api = getAPIObject();
 TEST_CASE("Financial Statements List")
 {
-    auto api = getAPIObject();
     SECTION("Fetch Financial Statement List")
     {
         auto results = api.getSymbolsWithFinancialStatements();
@@ -13,7 +14,6 @@ TEST_CASE("Financial Statements List")
 
 TEST_CASE("Income Statement")
 {
-    auto api = getAPIObject();
     SECTION("Fetch Income Statement")
     {
         auto results = api.getIncomeStatement("INTC", QUARTERLY, 4);
@@ -59,7 +59,6 @@ TEST_CASE("Income Statement")
 
 TEST_CASE("Balance Sheet Statement")
 {
-    auto api = getAPIObject();
     SECTION("Fetch Balance Sheet Statement")
     {
         auto results = api.getBalanceSheet("INTC", QUARTERLY, 4);
@@ -105,7 +104,6 @@ TEST_CASE("Balance Sheet Statement")
 
 TEST_CASE("Cash Flow Statement")
 {
-    auto api = getAPIObject();
     SECTION("Fetch Cash Flow Statement")
     {
         auto results = api.getCashFlowStatement("INTC", QUARTERLY, 4);

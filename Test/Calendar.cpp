@@ -1,8 +1,9 @@
 #include "Global.hpp"
 
+
+auto api = getAPIObject();
 TEST_CASE("Earnings Calendar")
 {
-	auto api = getAPIObject();
     SECTION("Get Calendar")
     {
         auto results = api.getEarningsCalendar();
@@ -42,7 +43,6 @@ TEST_CASE("Earnings Calendar")
 
 TEST_CASE("IPO Calendar")
 {
-	auto api = getAPIObject();
     SECTION("Get Calendar")
     {
         auto results = api.getIPOCalendar("2022-01-01", "2022-02-28");
@@ -56,7 +56,6 @@ TEST_CASE("IPO Calendar")
 
 TEST_CASE("Stock Split Calendar")
 {
-	auto api = getAPIObject();
     SECTION("Get Calendar")
     {
         auto results = api.getStockSplitCalendar("2022-01-01", "2022-02-28");
@@ -71,7 +70,6 @@ TEST_CASE("Stock Split Calendar")
 
 TEST_CASE("Dividend Calendar")
 {
-    auto api = getAPIObject();
     SECTION("Get Calendar")
     {
         auto results = api.getDividendCalendar("2022-01-01", "2022-02-28");
@@ -88,7 +86,6 @@ TEST_CASE("Dividend Calendar")
 
 TEST_CASE("Economic Calendar")
 {
-    auto api = getAPIObject();
     SECTION("Get Calendar")
     {
         auto results = api.getEconomicCalendar("2022-01-01", "2022-02-28");
