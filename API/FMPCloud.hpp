@@ -14,6 +14,8 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <fstream>
+#include <sstream>
 
 using namespace rapidjson;
 
